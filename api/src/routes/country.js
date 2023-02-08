@@ -37,9 +37,9 @@ router.post("/BringCountriesFromApi", async (req, res)=>{
 
 
 router.get("/", async (req , res)=>{
-    console.log("ESTE ES EL ALL")
+    
     const allCountries = await Country.findAll()
-   try {
+    try {
         if(allCountries.length ===0){
             
             res.status(400).send("No Countries")
@@ -47,10 +47,10 @@ router.get("/", async (req , res)=>{
         else {
             res.status(200).json(allCountries)
         }
-   } 
-   catch (error) {
+    } 
+    catch (error) {
         res.status(400).send(error.message)
-   }
+    }
 })
 
 router.get("/", async (req , res)=>{ 
@@ -58,6 +58,10 @@ router.get("/", async (req , res)=>{
 
 });
 
+// [ ] GET /countries/{idPais}:
+// Obtener el detalle de un país en particular
+// Debe traer solo los datos pedidos en la ruta de detalle de país
+// Incluir los datos de las actividades turísticas correspondientes
 
 router.get("/:idPais", async (req , res)=>{ 
     const { idPais } = req.params;
@@ -75,13 +79,29 @@ router.get("/:idPais", async (req , res)=>{
     }
     
 });
-// [ ] GET /countries/{idPais}:
-// Obtener el detalle de un país en particular
-// Debe traer solo los datos pedidos en la ruta de detalle de país
-// Incluir los datos de las actividades turísticas correspondientes
 
 // [ ] GET /countries?name="...":
 // Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
 // Si no existe ningún país mostrar un mensaje adecuado
+
+router.get("/:attribute", async (req , res)=>{ 
+    // /countries/:atributre?value=20
+    const {attribute}= req.params; 
+    const {value} = req.query;
+    try {
+        const aux = await Activity.findAll(
+            { [attribute] : value },
+    
+            // { where: { [attribute]: null,
+            //         },
+        );
+        res.status(200).json(aux);
+    } 
+    catch (error) {
+        res.status(400).send(error.message)
+    }
+    
+
+});
 
 module.exports = router;

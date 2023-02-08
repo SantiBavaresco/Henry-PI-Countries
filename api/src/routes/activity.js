@@ -13,6 +13,7 @@ router.post("/CreateActivity", async (req, res)=>{
     try{ // es mala practica pasar el req.body directo
         const newActivity = await Activity.create({ID, name, difficulty, duration, season
         });
+
         res.status(201).json(newActivity);
     }
     catch(error){
@@ -21,18 +22,22 @@ router.post("/CreateActivity", async (req, res)=>{
 });
 
 
-router.get("/All", async (req , res)=>{
-    console.log("ESTE ES EL ALL Activity")
+router.get("/", async (req , res)=>{
+   //console.log("ESTE ES EL ALL Activity")
     const allActivities = await Activity.findAll()
-   
-     if(!allActivities){
-        res.status(400).send("No Countries")
-     }
-        
-     else {
-        res.status(200).send(allActivities)
+    try {
+        if(allActivities.length ===0){
+            res.status(400).send("No Activities")
+        }
+            
+        else {
+            res.status(200).send(allActivities)
+        }
+    } 
+    catch (error) {
+        res.status(404).send(error.message);
     }
-    
+
 })
 
 
