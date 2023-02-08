@@ -1,24 +1,43 @@
 const { Router } = require('express');
 const router = Router();
+//const axios = require('axios');
 // const {getAllCountries} = require('../controllers/getCountries');
 const { Activity, Country } = require('../db')
+const { createCountry, CountriesFromApi } = require("../controllers/createCountry")
 
 
-router.post("/CreateCountry", async (req, res)=>{
-    const { ID, name, flag, capital, continent, subregion, area, population} = req.body;
+router.post("/NewCountry", async (req, res)=>{
+    const { ID, name, flag, capital, continent, subregion, area, population, timezone} = req.body;
    
-    if (! [ID, name, flag, capital, continent, subregion, area, population].every(Boolean) ){
+    if (! [ID, name, flag, capital, continent, subregion, area, population, timezone].every(Boolean) ){
         return res.status(404).send("Falta enviar datos obligatorios");
     }
 
     try{ // es mala practica pasar el req.body directo
-        const newCountry = await Country.create({ID, name, flag,    capital, continent, subregion, area, population
-        });
+        // console.log(await Country.create({ID, name, flag, capital, continent, subregion, area, population, timezone
+        // }))
+        const newCountry = await createCountry( { ID, name, flag, capital, continent, subregion, area, population, timezone});
         res.status(201).json(newCountry);
     }
     catch(error){
-        res.status(404).send("Error en alguno de los datos provistos");
+        
+        res.status(404).send(error.message);
     }
+});
+
+router.post("/BringCountriesFromApi", async (req, res)=>{
+
+    try {
+        
+        CountriesFromApi();
+        res.status(201).send("Operacion exitosa !!");
+    } 
+    
+    catch (error) {
+        res.status(404).json(error.message)
+        
+    }
+        
 });
 
 

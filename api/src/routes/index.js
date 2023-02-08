@@ -8,16 +8,11 @@ const router = Router();
 
 const countryRoutes = require("./country");
 const activityRoutes = require("./activity");
-// const usersRoute = require("./usersRoute")
-// const favorites = require("./Favorites")
-
-
 
 
 router.use('/api/countries' , countryRoutes)
 router.use('/api/activities' , activityRoutes)
-// router.use('/api/users' , usersRoute)
-// router.use('/api/user/favorites' , favorites)
+
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);

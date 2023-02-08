@@ -22,20 +22,42 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
 
+    map: {
+      type: DataTypes.TEXT,
+      //allowNull: false,
+    },
+
     capital: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
     continent: {
-      type: DataTypes.ENUM("America", "Europa", "Asia", "Africa", "Oseania", "Sin especificar"),
-      defaultValue: "Sin especificar",
+      type: DataTypes.
+          //ENUM("America", "Europa", "Asia", "Africa", "Oseania", "Unknown"),
+          ENUM(
+          "Antarctic", "Africa", "Asia", 
+          "Europe", "North America", "Oceania", 
+          "South America", "Americas",
+          "Unknown"),
+      defaultValue: "Unknown",
       allowNull: false,
     },
 
     subregion: {
-      type: DataTypes.ENUM("Norte", "Sur", "Este", "Oeste", "Centro", "Sin especificar"),
-      defaultValue: "Sin especificar",
+      type: DataTypes.
+          //ENUM("Norte", "Sur", "Este", "Oeste", "Centro", "Unknown"),
+          ENUM(
+          "Australia and New Zealand", "Caribbean", "Central America", 
+          "Central Asia", "Central Europe", "Eastern Africa", 
+          "Eastern Asia", "Eastern Europe", "Melanesia", 
+          "Micronesia", "Middle Africa", "North America", 
+          "Northern Africa", "Northern Europe", "Polynesia", 
+          "South America", "South-Eastern Asia", "Southeast Europe", 
+          "Southern Africa", "Southern Asia", "Southern Europe", 
+          "Western Africa", "Western Asia", "Western Europe", 
+          "Unknown"),
+      defaultValue: "Unknown",
     },
     
     area: {
@@ -47,5 +69,11 @@ module.exports = (sequelize) => {
       type: DataTypes.BIGINT,
       allowNull: false,
     },
+
+    timezone: {
+      type: DataTypes.STRING,
+      defaultValue: "-", 
+    },
+
   });
 };
