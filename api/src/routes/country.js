@@ -14,8 +14,6 @@ router.post("/NewCountry", async (req, res)=>{
     }
 
     try{ // es mala practica pasar el req.body directo
-        // console.log(await Country.create({ID, name, flag, capital, continent, subregion, area, population, timezone
-        // }))
         const newCountry = await createCountry( { ID, name, flag, capital, continent, subregion, area, population, timezone});
         res.status(201).json(newCountry);
     }
@@ -26,9 +24,7 @@ router.post("/NewCountry", async (req, res)=>{
 });
 
 router.post("/BringCountriesFromApi", async (req, res)=>{
-
     try {
-        
         CountriesFromApi();
         res.status(201).send("Operacion exitosa !!");
     } 
