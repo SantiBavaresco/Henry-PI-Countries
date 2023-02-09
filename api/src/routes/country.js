@@ -1,20 +1,19 @@
 const { Router } = require('express');
 const router = Router();
 //const axios = require('axios');
-// const {getAllCountries} = require('../controllers/getCountries');
 const { Activity, Country } = require('../db')
 const { createCountry, CountriesFromApi } = require("../controllers/createCountry")
 
 
 router.post("/NewCountry", async (req, res)=>{
-    const { ID, name, flag, capital, continent, subregion, area, population, timezone} = req.body;
+    const { ID, name, flag, capital, continent, subregion, area, population, timezone, maps} = req.body;
    
-    if (! [ID, name, flag, capital, continent, subregion, area, population, timezone].every(Boolean) ){
+    if (! [ID, name, flag, capital, continent, subregion, area, population, timezone, maps].every(Boolean) ){
         return res.status(404).send("Falta enviar datos obligatorios");
     }
 
     try{ // es mala practica pasar el req.body directo
-        const newCountry = await createCountry( { ID, name, flag, capital, continent, subregion, area, population, timezone});
+        const newCountry = await createCountry( { ID, name, flag, capital, continent, subregion, area, population, timezone, maps});
         res.status(201).json(newCountry);
     }
     catch(error){
@@ -25,7 +24,7 @@ router.post("/NewCountry", async (req, res)=>{
 
 router.post("/BringCountriesFromApi", async (req, res)=>{
     try {
-        CountriesFromApi();
+        await CountriesFromApi();
         res.status(201).send("Operacion exitosa !!");
     } 
     
@@ -53,10 +52,10 @@ router.get("/", async (req , res)=>{
     }
 })
 
-router.get("/", async (req , res)=>{ 
+// router.get("/", async (req , res)=>{ 
 
 
-});
+// });
 
 // [ ] GET /countries/{idPais}:
 // Obtener el detalle de un país en particular
@@ -75,7 +74,7 @@ router.get("/:idPais", async (req , res)=>{
     } 
     catch (error) {
         return res.status(404)
-        .send(`El código ${idPais} no corresponde a un personaje existente`)
+        .send(`El código ${idPais} no corresponde a un pais existente`)
     }
     
 });

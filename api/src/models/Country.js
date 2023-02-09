@@ -22,10 +22,6 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
 
-    map: {
-      type: DataTypes.TEXT,
-      //allowNull: false,
-    },
 
     capital: {
       type: DataTypes.STRING,
@@ -73,6 +69,11 @@ module.exports = (sequelize) => {
     timezone: {
       type: DataTypes.STRING,
       defaultValue: "-", 
+    },
+    
+    maps: {
+      type: DataTypes.STRING,
+      //allowNull: false,
     },
 
   });
