@@ -63,7 +63,7 @@ module.exports = (sequelize) => {
 
     population: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      defaultValue: 0,
     },
 
     timezone: {

@@ -1,28 +1,33 @@
 const { Country } = require("../db");
 const axios = require('axios');
 
+// funcion que transforma un undefined en un string "-"
 function arrayToString(a){
     let aux = "";
     a ? aux = a[0] : aux = "-";
     return aux;
 }
 
+// funcion que crea un pais en la DB
 async function createCountry ( {ID, name, flag, capital, continent, subregion, area, population, timezone, maps} )
 {
+    const aux = await Country.findByPk(ID);
+
+    if(aux) {
+        throw new Error (`El pais con el Id: ( ${ID} ) ya existe en la base de datos`);
+    }
+
     const newCountry = await Country.create(
         { ID, name, flag, capital, continent, subregion, area, population, timezone, maps });
     return newCountry;
 };
 
+// funcion que trae los datos de los paises de la API y los crea en la DB
 async function CountriesFromApi () {
     const apiDB = await axios.get('https://restcountries.com/v3.1/all')
 
     apiDB.data.map( async (item) => 
         { 
-            // const aux = await Country.findByPk(item.cca3.toUpperCase())
-            // //console.log(aux);
-            // if(aux) return (`EL pais con el ID: ${item.cca3} ya existe en la base de datos`);
-
             createCountry( 
                 {   
                     ID: item.cca3,
@@ -36,8 +41,7 @@ async function CountriesFromApi () {
                     timezone: arrayToString(item.timezones),
                     maps: item.maps.openStreetMaps,
                 }
-            )
-                       
+            )                   
         })
     
 }

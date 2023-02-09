@@ -43,6 +43,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 const {Country, Activity} = sequelize.models;
+//const { CountriesFromApi } = require("./controllers/createCountry")
+//CountriesFromApi();
 
 // Country * ---> * Activity
 Country.belongsToMany(Activity,{through:"CountryActivity"});
