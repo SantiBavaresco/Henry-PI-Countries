@@ -1,4 +1,4 @@
-const {Activity} = require("../db");
+const { Activity } = require("../db");
 
 // Funcion que crea en la DB una Activity
 async function createActivity ( {ID, name, difficulty, duration, season} )

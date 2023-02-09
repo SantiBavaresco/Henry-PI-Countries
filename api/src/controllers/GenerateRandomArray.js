@@ -1,4 +1,4 @@
-const {Activity, Country} = require("../db");
+const { Country } = require("../db");
 
 // funcion que extrae el ID de todos los paises de la BD y retorna un array con esos ID.
 async function extractIdFromCountriesDB(){
@@ -20,7 +20,6 @@ function generateRandomNumber() {
           Numbers.push(number);
         } 
       }
-    //  console.log(Numbers.length);
     return Numbers;
 }
 
@@ -36,7 +35,5 @@ async function randomCountriesArray(){
 
     return countriesArray;
 }
-
-    
 
 module.exports = {randomCountriesArray};

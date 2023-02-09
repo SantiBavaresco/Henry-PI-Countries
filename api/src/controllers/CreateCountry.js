@@ -11,12 +11,6 @@ function arrayToString(a){
 // funcion que crea un pais en la DB
 async function createCountry ( {ID, name, flag, capital, continent, subregion, area, population, timezone, maps} )
 {
-    const aux = await Country.findByPk(ID);
-
-    if(aux) {
-        throw new Error (`El pais con el Id: ( ${ID} ) ya existe en la base de datos`);
-    }
-
     const newCountry = await Country.create(
         { ID, name, flag, capital, continent, subregion, area, population, timezone, maps });
     return newCountry;
@@ -24,10 +18,14 @@ async function createCountry ( {ID, name, flag, capital, continent, subregion, a
 
 // funcion que trae los datos de los paises de la API y los crea en la DB
 async function CountriesFromApi () {
-    const apiDB = await axios.get('https://restcountries.com/v3.1/all')
+    const aux = await Country.findAll()
+    if(aux.length!==0)  
+        throw new Error("La base de datos ya fue cargada, imposible cargarla nuevamente (ID repetidos)");                
 
-    apiDB.data.map( async (item) => 
-        { 
+    const apiDB = await axios.get('https://restcountries.com/v3.1/all')
+    try {
+        apiDB.data.map( async (item) => 
+        {   
             createCountry( 
                 {   
                     ID: item.cca3,
@@ -41,9 +39,11 @@ async function CountriesFromApi () {
                     timezone: arrayToString(item.timezones),
                     maps: item.maps.openStreetMaps,
                 }
-            )                   
+            )      
         })
-    
+    } catch (error) {
+        res.status(408).send(error.message)
+    }
 }
 
 module.exports = {createCountry, CountriesFromApi};
