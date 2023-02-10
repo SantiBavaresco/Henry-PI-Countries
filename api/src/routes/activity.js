@@ -7,17 +7,18 @@ const { randomCountriesArray } = require("../controllers/GenerateRandomArray")
 
 // Ruta que crea la actividad nueva, recibe un array de countries que si es "Random" lo genera aleatoriamente
 router.post("/CreateActivity", async (req, res)=>{
-    let { ID, name, difficulty, duration, season, arrayCountries} = req.body;
+    // http://localhost:3001/api/activities/CreateActivity
+    let { name, difficulty, duration, season, arrayCountries} = req.body;
    
     if(arrayCountries[0]==="Random") {
         arrayCountries = await randomCountriesArray();
     }
-    if(! [ID, name, difficulty, duration].every(Boolean) ){
+    if(! [name, difficulty, duration].every(Boolean) ){
         return res.status(404).send("Falta enviar datos obligatorios");
     }
 
     try{ // es mala practica pasar el req.body directo
-        const newActivity = await createCountryActivity({ID, name, difficulty, duration, season, arrayCountries
+        const newActivity = await createCountryActivity({name, difficulty, duration, season, arrayCountries
         });
         // newActivity.addContry(variabled el pais)
         res.status(201).send("Actividad agregada exitosamente");
@@ -29,7 +30,7 @@ router.post("/CreateActivity", async (req, res)=>{
 
 // Ruta que muestra todas las Activities de la DB
 router.get("/", async (req , res)=>{
-   //console.log("ESTE ES EL ALL Activity")
+    // http://localhost:3001/api/activities/
     const allActivities = await Activity.findAll()
     try {
         if(allActivities.length === 0){
@@ -49,6 +50,7 @@ router.get("/", async (req , res)=>{
 // Ruta que devuelve las actividades que tiene el pais solicitado por parametro
 // devuelve 200 = []; si el paies existe y no tiene actividades - SOLUCIONAR
 router.get("/:idPais", async (req , res)=>{ 
+    // http://localhost:3001/api/activities/arg
     const { idPais } = req.params; 
     try {
         const countryFound = await Country.findByPk(idPais.toUpperCase());

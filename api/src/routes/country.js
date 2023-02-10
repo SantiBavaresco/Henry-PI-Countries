@@ -9,6 +9,7 @@ const { Op } = require("sequelize");
 
 // Ruta para crear un Country nuevo en la DB. (no es necesaria pero esta por las dudas)
 router.post("/NewCountry", async (req, res)=>{
+    // http://localhost:3001/api/countries/NewCountry
     let { ID, name, flag, capital, continent, subregion, area, population, timezone, maps} = req.body;
     ID = ID.toUpperCase();
 
@@ -27,6 +28,7 @@ router.post("/NewCountry", async (req, res)=>{
 
 // Ruta para cargar todos los paises en la DB desde la API 
 router.post("/BringCountriesFromApi", async (req, res)=>{
+    // http://localhost:3001/api/countries/BringCountriesFromApi
     try {
         await CountriesFromApi();
         res.status(201).send("API cargada en DB");
@@ -41,7 +43,7 @@ router.post("/BringCountriesFromApi", async (req, res)=>{
 
 // Ruta que trae todos los Countries de la DB
 router.get("/", async (req , res)=>{
-
+    // http://localhost:3001/api/countries/
     const allCountries = await Country.findAll()
     try {
         if(allCountries.length ===0){
@@ -66,8 +68,10 @@ router.get("/", async (req , res)=>{
 // ruta que trae el Country con el ID pasado desde la DB
 // EJ: http://localhost:3001/api/countries/arg
 router.get("/id/:idPais", async (req , res)=>{ 
+    // http://localhost:3001/api/countries/id/arg
     let { idPais } = req.params;
     idPais = idPais.toUpperCase()
+
     try {
         let countryFound = await Country.findOne({
             where: { ID: idPais,},
@@ -79,7 +83,16 @@ router.get("/id/:idPais", async (req , res)=>{
         });
 
         if(!countryFound) throw Error;
-            return res.status(200).json(countryFound);
+
+        // ---- pasa de array de objetos a un array ----
+        let ac = countryFound.Activities.map(function(obj) {
+            return obj.dataValues.name;
+          });
+
+        countryFound.dataValues.Activities=(ac);
+        // ---------------------------------------------
+
+        return res.status(200).json(countryFound.dataValues);
     } 
     catch (error) {
         return res.status(404)
@@ -92,17 +105,22 @@ router.get("/id/:idPais", async (req , res)=>{
 // Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
 // Si no existe ningún país mostrar un mensaje adecuado
 router.get("/name", async (req , res)=>{ 
-    // /countries/:atributre?value=20 
+    // http://localhost:3001/api/countries/name?name=arg
     const {name} = req.query;
 
     try {    
         const aux = await Country.findAll({ 
-            where : {
+            where : {   
                 name :  { [Op.iLike]: `%${name}%` }
-            } 
+            } ,
         });
+        console.log("+++++++++++++++++++++++++++++++++++++++++++");
+        console.log(aux);
+        if(aux.length===0) 
+            throw new Error(`No hay ningun pais en la DB que coninsida con "${name}"`);
         res.status(200).json(aux);
     } 
+
     catch (error) {
         res.status(404).send(error.message)
     }
