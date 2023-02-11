@@ -2,9 +2,11 @@ const { Router } = require('express');
 const router = Router();
 //const axios = require('axios');
 const { Activity, Country } = require('../db');
-const { createCountry, CountriesFromApi } = require("../controllers/createCountry")
+const { createCountry, countriesFromApi } = require("../controllers/createCountry")
+const { countryActivitiesByID } = require("../controllers/CountryActivitiesByID")
+const { countryByString } = require("../controllers/CountryByString")
 const { randomCountriesArray } = require("../controllers/GenerateRandomArray")
-const { Op } = require("sequelize");
+
 
 
 // Ruta para crear un Country nuevo en la DB. (no es necesaria pero esta por las dudas)
@@ -18,7 +20,8 @@ router.post("/NewCountry", async (req, res)=>{
     }
     
     try{ // es mala practica pasar el req.body directo
-        const newCountry = await createCountry( { ID, name, flag, capital, continent, subregion, area, population, timezone, maps});
+        const newCountry = await createCountry( 
+            { ID, name, flag, capital, continent, subregion, area, population, timezone, maps});
         res.status(201).json(newCountry);
     }
     catch(error){  
@@ -30,7 +33,7 @@ router.post("/NewCountry", async (req, res)=>{
 router.post("/BringCountriesFromApi", async (req, res)=>{
     // http://localhost:3001/api/countries/BringCountriesFromApi
     try {
-        await CountriesFromApi();
+        await countriesFromApi();
         res.status(201).send("API cargada en DB");
     } 
     
@@ -70,29 +73,12 @@ router.get("/", async (req , res)=>{
 router.get("/id/:idPais", async (req , res)=>{ 
     // http://localhost:3001/api/countries/id/arg
     let { idPais } = req.params;
-    idPais = idPais.toUpperCase()
 
     try {
-        let countryFound = await Country.findOne({
-            where: { ID: idPais,},
-            include: { 
-                model: Activity,
-                attributes: ["name"],
-                through: { attributes: [] },
-            },
-        });
 
-        if(!countryFound) throw Error;
+        const countryFound = await countryActivitiesByID(idPais);
 
-        // ---- pasa de array de objetos a un array ----
-        let ac = countryFound.Activities.map(function(obj) {
-            return obj.dataValues.name;
-          });
-
-        countryFound.dataValues.Activities=(ac);
-        // ---------------------------------------------
-
-        return res.status(200).json(countryFound.dataValues);
+        return res.status(200).json(countryFound);
     } 
     catch (error) {
         return res.status(404)
@@ -104,21 +90,16 @@ router.get("/id/:idPais", async (req , res)=>{
 // [ ] GET /countries?name="...":
 // Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
 // Si no existe ningún país mostrar un mensaje adecuado
-router.get("/name", async (req , res)=>{ 
-    // http://localhost:3001/api/countries/name?name=arg
+router.get("/", async (req , res)=>{ 
+    // http://localhost:3001/api/countries/?name=arg
     const {name} = req.query;
 
     try {    
-        const aux = await Country.findAll({ 
-            where : {   
-                name :  { [Op.iLike]: `%${name}%` }
-            } ,
-        });
-        console.log("+++++++++++++++++++++++++++++++++++++++++++");
-        console.log(aux);
-        if(aux.length===0) 
-            throw new Error(`No hay ningun pais en la DB que coninsida con "${name}"`);
-        res.status(200).json(aux);
+
+        const countryFound = await countryByString(name);
+
+        
+        res.status(200).json(countryFound);
     } 
 
     catch (error) {

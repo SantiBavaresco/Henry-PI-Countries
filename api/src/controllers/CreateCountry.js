@@ -17,7 +17,7 @@ async function createCountry ( {ID, name, flag, capital, continent, subregion, a
 };
 
 // funcion que trae los datos de los paises de la API y los crea en la DB
-async function CountriesFromApi () {
+async function countriesFromApi () {
     const aux = await Country.findAll()
     if(aux.length!==0)  
         throw new Error("La base de datos ya fue cargada, imposible cargarla nuevamente (ID repetidos)");                
@@ -46,4 +46,4 @@ async function CountriesFromApi () {
     }
 }
 
-module.exports = {createCountry, CountriesFromApi};
+module.exports = {createCountry, countriesFromApi};
