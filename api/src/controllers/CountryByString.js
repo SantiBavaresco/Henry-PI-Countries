@@ -1,6 +1,7 @@
 const { Country } = require("../db");
 const { Op } = require("sequelize");
 
+// funcion que devuelve un pais el cual el nombre del mismo contenga el strign pasado como parametro.
 async function countryByString (name) {
 
     const countryFound = await Country.findAll({ 

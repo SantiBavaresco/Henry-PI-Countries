@@ -1,5 +1,6 @@
 const { Country, Activity } = require("../db");
 
+// funcion que devuelve listo de los paises + actividades de manera limpia, en funcion del id otorgado por parametro.
 async function countryActivitiesByID (idPais) {
     idPais = idPais.toUpperCase();
 
