@@ -4,6 +4,8 @@ const router = Router();
 const { Activity, Country } = require('../db')
 const { createActivity, createCountryActivity } = require("../controllers/createActivity")
 const { randomCountriesArray } = require("../controllers/GenerateRandomArray")
+const { addExistingActivitiesToCountries } = require("../controllers/AddExistingActivitiesToCountries")
+
 
 // Ruta que crea la actividad nueva, recibe un array de countries que si es "Random" lo genera aleatoriamente
 router.post("/CreateActivity", async (req, res)=>{
@@ -67,6 +69,20 @@ router.get("/:idPais", async (req , res)=>{
         //.send(`El código ${idPais} no corresponde a un pais existente`)
     }
     
+});
+
+
+router.post("/AddExistingActivitiesToCountries", async (req, res) =>{
+    let { arrayActivities, arrayCountries} = req.body;
+    console.log("HOLAQUE TAL");
+
+    const aux = await addExistingActivitiesToCountries(arrayActivities, arrayCountries);
+
+    
+    res.status(200).json(arrayCountries)
+   
+
+
 });
 
 

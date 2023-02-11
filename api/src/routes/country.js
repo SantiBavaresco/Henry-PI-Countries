@@ -90,7 +90,7 @@ router.get("/id/:idPais", async (req , res)=>{
 // [ ] GET /countries?name="...":
 // Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
 // Si no existe ningún país mostrar un mensaje adecuado
-router.get("/", async (req , res)=>{ 
+router.get("/s", async (req , res)=>{ 
     // http://localhost:3001/api/countries/?name=arg
     const {name} = req.query;
 
