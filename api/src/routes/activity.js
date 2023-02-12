@@ -74,14 +74,14 @@ router.get("/:idPais", async (req , res)=>{
 
 router.post("/AddExistingActivitiesToCountries", async (req, res) =>{
     let { arrayActivities, arrayCountries} = req.body;
-    console.log("HOLAQUE TAL");
-
-    const aux = await addExistingActivitiesToCountries(arrayActivities, arrayCountries);
-
     
-    res.status(200).json(arrayCountries)
-   
-
+    try {
+        const countriesWithActivities = await addExistingActivitiesToCountries(arrayActivities, arrayCountries);
+        res.status(201).json(countriesWithActivities)
+    }
+    catch (error) {
+        return res.status(400).send(error.message)
+    }
 
 });
 
