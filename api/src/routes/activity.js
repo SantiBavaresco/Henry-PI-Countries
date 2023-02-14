@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 // const {getAllCountries} = require('../controllers/getCountries');
 const { Activity, Country } = require('../db')
-const { createActivity, createCountryActivity } = require("../controllers/createActivity")
+const { createActivity, createCountryActivity, createStandarActivities } = require("../controllers/createActivity")
 const { randomCountriesArray } = require("../controllers/GenerateRandomArray")
 const { addExistingActivitiesToCountries } = require("../controllers/AddExistingActivitiesToCountries")
 
@@ -30,11 +30,27 @@ router.post("/CreateActivity", async (req, res)=>{
     }
 });
 
+// ruta que carga 20 actividades basicas a la DB
+router.post("/CreateStandarActivities", async (req, res)=>{
+    // http://localhost:3001/api/activities/CreateActivity
+
+   try {
+        await createStandarActivities();
+        res.status(201).send("Activities cargadas en DB");
+    } 
+    
+    catch (error) {
+        res.status(409).send(error.message)       
+    }
+});
+
+
 // Ruta que muestra todas las Activities de la DB
 router.get("/", async (req , res)=>{
     // http://localhost:3001/api/activities/
-    const allActivities = await Activity.findAll()
+    
     try {
+        const allActivities = await Activity.findAll()
         if(allActivities.length === 0){
             res.status(400).send("No Activities")
         }

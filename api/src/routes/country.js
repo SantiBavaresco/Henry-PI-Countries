@@ -73,16 +73,15 @@ router.get("/", async (req , res)=>{
 router.get("/id/:idPais", async (req , res)=>{ 
     // http://localhost:3001/api/countries/id/arg
     let { idPais } = req.params;
-
+    idPais = idPais.toUpperCase();
     try {
-
         const countryFound = await countryActivitiesByID(idPais);
-
         return res.status(200).json(countryFound);
     } 
     catch (error) {
         return res.status(404)
-        .send(`El código ${idPais} no corresponde a un pais existente`)
+        .send(error.message)
+        //.send(`El código ${idPais} no corresponde a un pais existente`)
     }
     
 });
