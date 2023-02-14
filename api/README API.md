@@ -18,9 +18,10 @@ Linkedin : https://www.linkedin.com/in/santiago-bavaresco/
 | Show all the activities in the DB | http://localhost:3001/api/activities/ | Show al the activities in the DB |
 | Find activities by country ID | http://localhost:3001/api/activities/ita | Brings an array of the activities from the DB for the ID country that we whant to find his activity (ej: ita) |
 | Assing activities to contries | http://localhost:3001/api/activities/AddExistingActivitiesToCountries | It will recibe an array of existing activities in the DB, and an array of existing countries to assing those countries with the activities. Ej: { ""arrayActivities"": [1,7,3], ""arrayCountries"": [""ARG"",""MEX""] }.  Returns and object with the countris that already have that activity assing. |
+ Creates 20 activities for random countries | http://localhost:3001/api/activities/CreateStandarActivities | Creates in the DB  20 activities for random countries, to have some data in the beginning. |
 
 
-name	dificulty	duration	season
+<!-- name	dificulty	duration	season
 Turismo de Sol y Playa	1	16	Summer
 Parques Acuaticos	2	9	Summer
 4x4 OffRoad	4	6	All year
@@ -39,5 +40,5 @@ Turismo por leyendas.	1	12	Autumn
 Turismo de Aventura	3	15	Winter
 Pesca en rios	2	20	Spring
 Pescar Embarcado	3	8	Summer
-Turismo de Glaciares 	1	8	Autumn
+Turismo de Glaciares 	1	8	Autumn -->
 
