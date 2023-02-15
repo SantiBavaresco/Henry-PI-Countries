@@ -1,18 +1,57 @@
-import { ADD_FAVORITE, DELETE_FAVORITE, FILTER_CARDS, ORDER_CARDS } from "./type";
+import { GET_ALL, GET_COUNTRY_DETAIL_BY_ID, GET_COUNTRY_DETAIL_BY_STRING, GET_ACTIVITIES, FILTER_CARDS, ORDER_CARDS } from "./type";
+//const axios = require('axios');
 
 // ACTION CREATORS
-export function addFavorite (obj){ 
-    return {
-        type: ADD_FAVORITE,
-        payload: obj
+export function getAllCountries (){ 
+    return async (dispatch) => {
+        await fetch("http://localhost:3001/api/countries")
+        .then((r)=> r.json())
+        .then((data) => {
+            dispatch({
+                type: GET_ALL,
+                payload: data
+            })
+        })
     }
 };
 
-export function deleteFavorite(obj){ 
-    return {
-        type: DELETE_FAVORITE,
-        payload: obj
-    };
+export function getCountryDetailByID(id){ 
+    return async (dispatch) => {
+        await fetch(`http://localhost:3001/api/countries/id/${id}`)
+            .then((r)=> r.json())
+            .then((data) => {
+                dispatch({
+                    type: GET_COUNTRY_DETAIL_BY_ID,
+                    payload: data
+                })
+            })
+        }
+};
+
+export function getCountryDetailByString(string){ 
+    return async (dispatch) => {
+        await fetch(`http://localhost:3001/api/countries/s?name=${string}`)
+            .then((r)=> r.json())
+            .then((data) => {
+                dispatch({
+                    type: GET_COUNTRY_DETAIL_BY_STRING,
+                    payload: data
+                })
+            })
+    }
+};
+
+export function getActivities(){ 
+    return async (dispatch) => {
+        await fetch("http://localhost:3001/api/activities/")
+        .then((r)=> r.json())
+        .then((data) => {
+            dispatch({
+                type: GET_ACTIVITIES,
+                payload: data
+            })
+        })
+    }
 };
 
 export function filterCards (status){ 
@@ -28,3 +67,4 @@ export function orderCards (id){
         payload: id
     }
 };
+

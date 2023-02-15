@@ -6,15 +6,18 @@ import App from './App';
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import reportWebVitals from './reportWebVitals';
+//const axios = require('axios');
+
 
 ReactDOM.render(
-  <Provider>
+  <Provider store={store}>
     <BrowserRouter>
       <React.StrictMode>
         <App />
       </React.StrictMode>
     </BrowserRouter>
-  </Provider>,
+  </Provider>
+ ,
   document.getElementById('root')
 );
 
