@@ -11,7 +11,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { getAllCountries, getActivities } from "../../redux/actions";
 import NavBar from "../NavBar/NavBar"
-import Paralax from "../Parallax/Parallax"
+// import Paralax from "../Parallax/Parallax"
 
 
 
@@ -26,11 +26,17 @@ function Home() {
       await dispatch( getAllCountries() ) 
       await dispatch( getActivities() )
     }
-  
+
+    // //const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //   dispatch ( getCountries() );
+    // }, []);
+
     return (
       <div className="Home" >
         {/* <h1>Bienvenidos</h1> */}
-        <Paralax></Paralax>
+        
         <Link to={"/countries"}>
           <button onClick={getCountries}>Ingresar</button>
         </Link>
@@ -40,4 +46,5 @@ function Home() {
   }
   
   export default Home;
+  
   

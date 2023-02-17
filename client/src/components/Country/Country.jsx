@@ -10,7 +10,7 @@ function Countries(props) {
   return (
     <div className={styles.card1} >
        <div id={props.id} key={props.id} >
-          <NavLink to={`/countries/${props.id}`}>
+          <NavLink to={`/country/${props.id}`}>
             <img  src={props.flag} alt="No encontrado" /> 
             <h2 >{props.name}</h2>
           </NavLink>

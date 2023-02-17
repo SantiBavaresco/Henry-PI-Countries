@@ -1,10 +1,7 @@
 //import SearchBar from './SearchBar.jsx';
 //import styles from '../stylesModules/NavBar.module.css';
 //import Titulo from "../img/Rick-and-Morty.png";
-import { Link } from 'react-router-dom';
 
-
-import React, { useState } from "react";
 //import styles from "./NavBar.module.css";
 
 
@@ -71,9 +68,21 @@ import React, { useState } from "react";
 //     )
 //  }
 
-import stryles from  "./NavBar.module.css";
-import logo from "../../img/logo.svg";
-import joe from "../../img/joe.png";
+// import styles from  "./NavBar.module.css";
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import React from "react";
+import SearchBar from "../SearchBar/SearchBar";
+import Burger from "../Burger/Burger";
+
+
+
+import logo from "../../img/logo.png";
+import iProfile from "./icon-profile.png";
+import iSettings from "./icon-settings.png";
+import iWorld from "./icon-world.png";
+
 
 //import React, { useState } from 'react';
 import styles from "./NavBar.module.css";
@@ -81,39 +90,69 @@ import styles from "./NavBar.module.css";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [userInput, setUserInput] = useState("");
+
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
+
+  function handleChange(event){
+    console.log("hola")
+    setUserInput(event.target.value);
+  }
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch ( getAllCountries() );
+  // }, []);
+
 
   return (
     <>
       <button className={styles.burger} onClick={toggleMenu}>
         <svg viewBox="0 0 100 80" width="40" height="30">
           <rect width="100" height="10"></rect>
-          <rect y="30" width="100" height="10"></rect>
-          <rect y="60" width="100" height="10"></rect>
+          <rect y="25" width="100" height="10"></rect>
+          <rect y="50" width="100" height="10"></rect>
         </svg>
+
+        <Burger/>
+        
       </button>
       <div className={`${styles.navbar} ${isOpen ? 'open' : ''}`}>
+
+      <Link to={"/countries"} >
         <div className={styles.logo}>
           <img src={logo} alt="Logo" />
-          <span>My Site</span>
+          <span>PI Countries</span>
         </div>
-        <div className={styles.search}>
+      </Link>
+
+        <SearchBar></SearchBar>
+        {/* <div className={styles.search}>
           <span>&#x1F50D;</span>
-          <input type="text" placeholder="Search" />
-        </div>
-        <nav>
-          <a href="">
-            <img src="/icon-home.svg" alt="Home" />
+          <input type="text" placeholder="Search" onChange={handleChange}/>
+        </div> */}
+
+        <nav className={styles.links}>
+          <a href="/CreateActivities" className={styles.logoRoutes}>
+            Advanced &#x23E9;
+            <img src={iWorld} alt="Home" />
           </a>
-          <a href="">
-            <img src="/icon-profile.svg" alt="Profile" />
+
+          <a href="/profile" className={styles.logoRoutes}>
+            {/* Profile&#x1F51C;  */}
+            <img src={iProfile} alt="Profile" />
           </a>
-          <a href="">
-            <img src="/icon-settings.svg" alt="Settings" />
+
+          <a href="/settings" className={styles.logoRoutes}>
+            {/* Settings&#x1F51C;  */}
+            <img src={iSettings} alt="Settings" />
           </a>
+
         </nav>
+
       </div>
     </>
   );

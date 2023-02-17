@@ -4,7 +4,7 @@ import styles from "./Countries.module.css"
 import { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import Country from "../Country/Country";
-import { getAllCountries } from "../../redux/actions";
+import { getAllCountries, getCountryDetailByID } from "../../redux/actions";
 
 
 function Countries(props) {
@@ -12,7 +12,7 @@ function Countries(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch ( getAllCountries() );
+    dispatch (getAllCountries());
   }, []);
 
   return (

@@ -1,33 +1,52 @@
-import styles from '../stylesModules/SeatchBar.module.css';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import React from "react";
+import styles from "./SearchBar.module.css";
+import { getCountryDetailByID } from "../../redux/actions";
 
-// export default function SearchBar(props) {
-//    const {onSearch} = props;
-//    const [userInput, setUserInput] = useState("");
 
-//    //const handleFormValueChange = (evento) => setUserInput(evento.target.value);
-//    function handleChange(evento){
-//       // cuando ocurra un cambio en el valuue del input,
-//       // tomar ese value y guardarlo en el estado del userInput
-//       setUserInput(evento.target.value);
-//    }
-//    function clearInput() {  // vacia el input
-//       setUserInput("");
-//    }
-//    function getRandomInt(max) {
-//        return Math.floor(Math.random() * max) + 1;
-//     }
+function SearchBar() {
+    const [userInput, setUserInput] = useState("");
+
+    // const { countryById } = props;
+    const dispatch = useDispatch();
+  
+    function handleChange(event){
+      console.log(event.target.value)
+      setUserInput(event.target.value);
+      getCountryDetailByID(event.target.value)
+    }
+
+
    
-//    return (
-//       <span className={styles.searchBar} style={{}}> 
-//          <input type='search' value={userInput} onChange={handleChange} 
-//             //onSubmit={() => clearInput()}
-//             />
-//          <button onClick={() => {onSearch(userInput); clearInput() }} className={styles.button}>
-//             Agregar</button> 
-            
-//          <button onClick={() => {onSearch(getRandomInt(826)); clearInput() }} className={styles.button}>
-//             Random</button>
-//       </span>
-//    );
-// }
+
+    // useEffect(() => {
+    //   dispatch ( getAllCountries() );
+    //   }, []);
+
+    
+
+
+return (
+    <div className={styles.search}>
+          <span>&#x1F50D; </span>
+          <input type="text" placeholder="Search" onChange={handleChange}/>
+        </div>
+    );
+}
+//export default SearchBar;
+
+export function mapStateToProps(state) {
+    return {
+        countryById: state.countryById,
+    };
+  }
+  
+  export function mapDispatchToProps(dispatch) {
+    return {
+        getCountryDetailByID: () => dispatch ( getCountryDetailByID() ),
+    };
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

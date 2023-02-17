@@ -20,6 +20,8 @@
     /* height: 100vh; */
     /* background-color: #c5c5c5a2; */
   }
+
+
  
   body {
     background: #67d5e4;
@@ -40,7 +42,13 @@
     color: #585c62;
     cursor: pointer;
   }
-  
+
+.text{
+  text-decoration: none;
+  text-align: center;
+  justify-content: space-between;
+}
+
   .burger {
     position: fixed;
     z-index: 2;
@@ -71,6 +79,8 @@
     visibility: hidden;
     transition-property: translate, opacity, visibility;
     transition-duration: 0.5s;
+
+    
   }
   
   body.open .navbar {
@@ -104,9 +114,22 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    width: 108px;
+    width: 138px;
     padding-right: 10px;
     margin-bottom: 10px;
+    text-decoration: none;
+  }
+
+  .logoRoutes {
+    display: flex;
+    align-items: center;
+    /* gap: 8px; */
+    /* width: 110px; */
+    padding-right: 8px;
+    /* margin-bottom: 10px; */
+    text-decoration: none;
+    text-align: center;
+    justify-content: space-between;
   }
   
   @media (width >= 500px) {
@@ -174,6 +197,7 @@
   .navbar nav {
     display: flex;
     align-items: center;
+    
     padding-right: 20px;
   }
   
@@ -183,4 +207,18 @@
     height: 32px;
     margin-left: 8px;
   }
+
+  .links {
+    display:flex;
+    /* gap: 16px; */
+  }
+  .links a{
+    text-decoration: none;
+    color: #585c62;
+    font-size: 15px;
+    transition: 0.3s;
+    opacity: 0.8;
+  }
+  .links:hover a { opacity: 0.25;}
+  .links a:hover { opacity: 1;}
   
