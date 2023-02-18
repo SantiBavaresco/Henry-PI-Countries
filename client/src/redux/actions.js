@@ -1,4 +1,4 @@
-import { GET_ALL, GET_COUNTRY_DETAIL_BY_ID, GET_COUNTRY_DETAIL_BY_STRING, GET_ACTIVITIES, FILTER_CARDS, ORDER_CARDS } from "./type";
+import { GET_ALL, GET_COUNTRY_DETAIL_BY_ID, GET_COUNTRY_DETAIL_BY_STRING, GET_ACTIVITIES, CREATE_ACTIVITY, FILTER_CARDS, ORDER_CARDS } from "./type";
 //const axios = require('axios');
 
 // ACTION CREATORS
@@ -53,6 +53,27 @@ export function getActivities(){
         })
     }
 };
+
+export function createRecipe(activity) {
+    return async (dispatch) => {
+      await fetch("http://localhost:3001/api/activities/CreateActivity", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(activity),
+      })
+        .then((r) => r.json())
+        .then((result) => {
+          dispatch({ 
+            type: CREATE_ACTIVITY, 
+            payload: activity });
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    };
+  }
 
 export function filterCards (status){ 
     return {

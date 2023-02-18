@@ -96,10 +96,7 @@ function Navbar() {
     setIsOpen(!isOpen);
   }
 
-  function handleChange(event){
-    console.log("hola")
-    setUserInput(event.target.value);
-  }
+ 
 
   const dispatch = useDispatch();
 
@@ -117,17 +114,20 @@ function Navbar() {
           <rect y="50" width="100" height="10"></rect>
         </svg>
 
-        <Burger/>
+        {/* <Burger/> */}
         
       </button>
       <div className={`${styles.navbar} ${isOpen ? 'open' : ''}`}>
 
-      <Link to={"/countries"} >
         <div className={styles.logo}>
-          <img src={logo} alt="Logo" />
-          <span>PI Countries</span>
+          <Link to={"/"} >
+            <img src={logo} alt="Logo" />
+          </Link>
+          <Link to={"/countries"} >
+            <span>PI Countries</span>
+          </Link>
+          
         </div>
-      </Link>
 
         <SearchBar></SearchBar>
         {/* <div className={styles.search}>
@@ -136,8 +136,8 @@ function Navbar() {
         </div> */}
 
         <nav className={styles.links}>
-          <a href="/CreateActivities" className={styles.logoRoutes}>
-            Advanced &#x23E9;
+          <a href="/activityCreator" className={styles.logoRoutes}>
+            Create Activity &#x23E9;
             <img src={iWorld} alt="Home" />
           </a>
 

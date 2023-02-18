@@ -6,6 +6,7 @@ import {useState, useEffect} from 'react';
 
 import Home from "./components/Home/Home"
 import NavBar from "./components/NavBar/NavBar"
+import ActivityCreator from "./components/ActivityCreator/ActivityCreator"
 import Error404 from "./components/Error404/Error404"
 
 import MainParallax from "./components/Parallax/MainParallax"
@@ -29,6 +30,8 @@ function App() {
              <Route path="/" element={<Home />}/> 
              <Route path="/countries" element={<Countries />}/>
              <Route path="/country/:id" element={<CountryDetail />}/>
+             <Route path="/activityCreator" element={<ActivityCreator />}/>
+
              <Route path=":404" element={<Error404/>}/> 
 
              {/* <Route path="/about" element={<About/>}/>

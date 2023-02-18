@@ -25,6 +25,7 @@ function Home() {
     async function getCountries() {
       await dispatch( getAllCountries() ) 
       await dispatch( getActivities() )
+      // console.log("1")
     }
 
     // //const dispatch = useDispatch();
