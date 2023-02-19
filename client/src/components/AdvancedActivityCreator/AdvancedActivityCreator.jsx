@@ -1,7 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import "./AdvancedActivityCreator.model.css"
+import DualColumnScrollBarLabel from './DualColumnScrollBarLabel';
 
-function ActivityCreator() {
+
+function AdvancedActivityCreator() {
     const [selectedOption, setSelectedOption] = useState('Option 1');
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -9,7 +12,13 @@ function ActivityCreator() {
   // Example data for the selector, activities, and countries
   const selectorOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
   const activityOptions = ['Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3'];
-  const countryOptions = ['Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3'];
+  const countryOptions = ['Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3',
+  'Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2',
+   'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1',
+    'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3',
+    'Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 
+    'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2',
+     'Country 3','Country 1', 'Country 2', 'Country 3'];
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -36,17 +45,18 @@ function ActivityCreator() {
   };
 
   return (
+    
     <table>
       <thead>
         <tr>
-          <th>Select an option</th>
+          {/* <th>Select an option</th> */}
           <th>Select activities</th>
           <th>Select countries</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>
+          {/* <td>
             <select value={selectedOption} onChange={handleOptionChange}>
               {selectorOptions.map((option, index) => (
                 <option key={index} value={option}>
@@ -54,7 +64,7 @@ function ActivityCreator() {
                 </option>
               ))}
             </select>
-          </td>
+          </td> */}
           <td>
             {activityOptions.map((activity, index) => (
               <div key={index}>
@@ -71,6 +81,9 @@ function ActivityCreator() {
             ))}
           </td>
           <td>
+          <DualColumnScrollBarLabel/>
+          </td>
+          {/* <td>
             {countryOptions.map((country, index) => (
               <div key={index}>
                 <label>
@@ -84,11 +97,50 @@ function ActivityCreator() {
                 </label>
               </div>
             ))}
-          </td>
+          </td> */}
         </tr>
       </tbody>
     </table>
-  );
-}
 
-export default ActivityCreator;
+
+    // <div>
+    //   <header>
+    //     <h1>Table Header</h1>
+    //   </header>
+    //   <div className="container">
+    //     <aside>
+    //       <h2>Table Aside</h2>
+    //     </aside>
+    //     <main>
+    //       <table>
+    //         <thead>
+    //           <tr>
+    //             <th>Column 1</th>
+    //             <th>Column 2</th>
+    //             <th>Column 3</th>
+    //           </tr>
+    //         </thead>
+    //         <tbody>
+    //           <tr>
+    //             <td>Row 1, Column 1</td>
+    //             <td>Row 1, Column 2</td>
+    //             <td>Row 1, Column 3</td>
+    //           </tr>
+    //           <tr>
+    //             <td>Row 2, Column 1</td>
+    //             <td>Row 2, Column 2</td>
+    //             <td>Row 2, Column 3</td>
+    //           </tr>
+    //           <tr>
+    //             <td>Row 3, Column 1</td>
+    //             <td>Row 3, Column 2</td>
+    //             <td>Row 3, Column 3</td>
+    //           </tr>
+    //         </tbody>
+    //       </table>
+    //     </main>
+    //   </div>
+    // </div>
+)}
+
+export default AdvancedActivityCreator;

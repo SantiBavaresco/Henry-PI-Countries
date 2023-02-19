@@ -136,9 +136,18 @@ function Navbar() {
         </div> */}
 
         <nav className={styles.links}>
-          <a href="/activityCreator" className={styles.logoRoutes}>
-            Create Activity &#x23E9;
-            <img src={iWorld} alt="Home" />
+          <div>
+            
+            <a href="/activityCreator" className={styles.logoRoutes}>
+              Create Activity &#x23E9;
+            </a>
+            <a href="/advancedActivityCreator" className={styles.logoRoutes}>
+              Create Advanced Activity &#x23E9;
+            </a>
+          </div>
+
+           <a href="/countries">
+            <img src={iWorld} alt="Home" className={styles.logoRoutes}/>
           </a>
 
           <a href="/profile" className={styles.logoRoutes}>

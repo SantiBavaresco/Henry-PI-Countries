@@ -13,12 +13,12 @@ function Countries(props) {
 
   useEffect(() => {
     dispatch (getAllCountries());
-    // dispatch (getCountryDetailByString())
+    dispatch (getCountryDetailByString(""))
     //console.log(dispatch (getCountryDetailByString("islan")))
   }, []);
 
   return (
-    <div >
+    <div style={{ minHeight: "85vh"}}>
       <div className={styles.cards_container}>
         {console.log("len string:", countryByString.length)}
         {console.log("len all:", allCountries.length)}
@@ -45,12 +45,15 @@ function Countries(props) {
                 key={c?.ID}
                 id={c?.ID}
                 name={c?.name}
+
                 flag={c?.flag}
                 continent={c?.continent}
                 subregion={c?.subregion}                
               />
             );
-          })
+          }
+          )
+          
           // <p>No hay nada</p>
         )}
       </div>
