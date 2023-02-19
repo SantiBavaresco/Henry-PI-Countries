@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; 
+// import ActivityCreator from "../ActivityCreator/ActivityCreator"
 
 
 
@@ -44,6 +45,7 @@ export function CountryDetail(props) {
       <h4>{countryById.timezone}</h4>
       <h4>{countryById.maps}</h4>
       <h4>{countryById.Activities}</h4>
+      {/* <ActivityCreator/> */}
 
 
     </div>
