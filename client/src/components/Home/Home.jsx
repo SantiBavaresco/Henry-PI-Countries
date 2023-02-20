@@ -10,6 +10,8 @@ import { Link, Outlet } from "react-router-dom";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { getAllCountries, getActivities } from "../../redux/actions";
+import Paralax from "../Parallax/Parallax"
+
 import NavBar from "../NavBar/NavBar"
 // import Paralax from "../Parallax/Parallax"
 
@@ -37,9 +39,23 @@ function Home() {
     return (
       <div className="Home" >
         {/* <h1>Bienvenidos</h1> */}
+        <Paralax></Paralax>
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
+        <h1>HOLA QUE TAL</h1> 
         
         <Link to={"/countries"}>
+
           <button onClick={getCountries}>Ingresar</button>
+
         </Link>
         <Outlet />
       </div>

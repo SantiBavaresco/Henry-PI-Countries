@@ -108,14 +108,16 @@ function Navbar() {
   return (
     <>
       <button className={styles.burger} onClick={toggleMenu}>
+        <span>
         <svg viewBox="0 0 100 80" width="40" height="30">
           <rect width="100" height="10"></rect>
           <rect y="25" width="100" height="10"></rect>
           <rect y="50" width="100" height="10"></rect>
+          
         </svg>
-
         {/* <Burger/> */}
         
+        </span>
       </button>
       <div className={`${styles.navbar} ${isOpen ? 'open' : ''}`}>
 

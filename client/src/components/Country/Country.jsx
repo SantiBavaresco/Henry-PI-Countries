@@ -15,7 +15,7 @@ function Countries(props) {
             <h2 >{props.name}</h2>
           </NavLink>
           <h4>{props.continent}</h4>
-          <h4>{props.subregion}</h4>
+          {/* <h4>{props.subregion}</h4> */}
           <h4> </h4>
 
           {/* {/* {location.pathname ==='/home' ? */}

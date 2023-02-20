@@ -1,5 +1,22 @@
-import { GET_ALL, GET_COUNTRY_DETAIL_BY_ID, GET_COUNTRY_DETAIL_BY_STRING, GET_ACTIVITIES, CREATE_ACTIVITY, FILTER_CARDS, ORDER_CARDS } from "./type";
+import { 
+  GET_ALL,
+  GET_COUNTRY_DETAIL_BY_ID,
+  GET_COUNTRY_DETAIL_BY_STRING,
+  GET_ACTIVITIES,
+  CREATE_ACTIVITY,
+  CREATE_ADVANCED_ACTIVITY,
+  FILTER_CARDS,
+  ORDER_CARDS,
+  API_ERROR
+} from "./type";
 //const axios = require('axios');
+
+function apiError(error){
+    return {
+        type: API_ERROR,
+        payload: error,
+    }
+}
 
 // ACTION CREATORS
 export function getAllCountries (){ 
@@ -11,6 +28,9 @@ export function getAllCountries (){
                 type: GET_ALL,
                 payload: data
             })
+        })
+        .catch(error => {
+            dispatch(apiError(error.message))
         })
     }
 };
@@ -24,6 +44,10 @@ export function getCountryDetailByID(id){
                     type: GET_COUNTRY_DETAIL_BY_ID,
                     payload: data
                 })
+                dispatch(apiError(null));
+            })
+            .catch(error => {
+                dispatch(apiError(error.message))
             })
         }
 };
@@ -37,6 +61,11 @@ export function getCountryDetailByString(string){
                     type: GET_COUNTRY_DETAIL_BY_STRING,
                     payload: data
                 })
+                dispatch(apiError(null));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                dispatch(apiError(error.message))
             })
     }
 };
@@ -50,11 +79,15 @@ export function getActivities(){
                 type: GET_ACTIVITIES,
                 payload: data
             })
+            dispatch(apiError(null));
+        })
+        .catch(error => {
+            dispatch(apiError(error.message))
         })
     }
 };
 
-export function createRecipe(activity) {
+export function createActivity(activity) {
     return async (dispatch) => {
       await fetch("http://localhost:3001/api/activities/CreateActivity", {
         method: "POST",
@@ -68,10 +101,35 @@ export function createRecipe(activity) {
           dispatch({ 
             type: CREATE_ACTIVITY, 
             payload: activity });
+          dispatch(apiError(null));
         })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+        .catch(error => {
+            dispatch(apiError(error.message))
+        })
+        
+    };
+  }
+
+  export function createAdvancedActivity(activities) {
+    return async (dispatch) => {
+      await fetch("http://localhost:3001/api/activities/AddExistingActivitiesToCountries", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(activities),
+      })
+        .then((r) => r.json())
+        .then((result) => {
+          dispatch({ 
+            type: CREATE_ADVANCED_ACTIVITY, 
+            payload: activities });
+          dispatch(apiError(null));
+        })
+        .catch(error => {
+            dispatch(apiError(error.message))
+        })
+        
     };
   }
 

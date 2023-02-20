@@ -32,11 +32,11 @@ export function CountryDetail(props) {
 
   return (
     <div>
-      <h1>{countryById.name}</h1>
       <img src={countryById.flag} alt="No IMG" />
       {/* {detail.dishTypes ? <h3>{detail.dishTypes.join(", ")}</h3> : <h3></h3>}
       {detail.diets ? <h3>{detail.diets.join(", ")}</h3> : <h3></h3>} */}
       <h4></h4>
+      <h1>{countryById.name}</h1>
       <h4>{countryById.capital}</h4>
       <h4>{countryById.continent}</h4>
       <h4>{countryById.subregion}</h4>
