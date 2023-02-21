@@ -22,6 +22,11 @@
     margin-bottom: 10px;
     
   }
+
+  .row:disabled {
+    opacity: 0.5;
+    cursor: default;
+  } 
   
   label {
     display: inline-block;
@@ -45,6 +50,8 @@
     color: white;
     cursor: pointer;
     width: 8vw;
+    /* height: 5vh; */
+    align-items:center;
   }
   
   button:disabled {

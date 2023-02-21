@@ -7,7 +7,7 @@ import {
   CREATE_ADVANCED_ACTIVITY,
   FILTER_CARDS,
   ORDER_CARDS,
-  API_ERROR
+  API_ERROR,
 } from "./type";
 //const axios = require('axios');
 

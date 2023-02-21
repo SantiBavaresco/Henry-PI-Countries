@@ -12,8 +12,9 @@ function Countries(props) {
        <div id={props.id} key={props.id} >
           <NavLink to={`/country/${props.id}`}>
             <img  src={props.flag} alt="No encontrado" /> 
-            <h2 >{props.name}</h2>
           </NavLink>
+          <h2 >{props.name}</h2>
+
           <h4>{props.continent}</h4>
           {/* <h4>{props.subregion}</h4> */}
           <h4> </h4>

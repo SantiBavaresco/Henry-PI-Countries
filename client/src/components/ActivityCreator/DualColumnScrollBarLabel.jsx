@@ -27,12 +27,16 @@ export default function DualColumnScrollBarLabel() {
     }
   };
 
+  function consologuero(){
+    console.log("ESTE ES UN CONSOLELOG")
+  }
+
 
     return (
         <div 
         // style={{ height: '200px' }}
         >
-            <div style={myComponent}>
+            <div style={myComponent} onChange={consologuero}>
                 <ul>
                     
                 <div className={styles['scrollable-container']}>

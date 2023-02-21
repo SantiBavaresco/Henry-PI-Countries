@@ -74,3 +74,15 @@ table {
   .column:first-child {
     margin-right: 4%;
   }
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #0077cc;
+    color: white;
+    cursor: pointer;
+    width: 8vw;
+  }
+  

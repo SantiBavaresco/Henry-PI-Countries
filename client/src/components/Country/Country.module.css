@@ -20,6 +20,7 @@
     border-radius: 25px ;
     line-height : 1px;
     font-size: 0.7em;
+    /* text-overflow: clip; */
 
     /* display: flex; */
     /* flex-direction: column; */
@@ -40,7 +41,14 @@
     /* position: relative; */
    
   }
+h2 { 
+  /* display:inline-block; */
+  /* overflow: hidden; */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* max-width: 13ch; */
 
+}
 .card1:hover {
     background-color: #5dc76fc9;
     color: beige;

@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./InputActivityCreator.module.css";
+// import { FaCheck } from 'react-icons';
+
 import { getAllCountries, getActivities} from "../../redux/actions";
 
 
@@ -12,77 +14,61 @@ import { getAllCountries, getActivities} from "../../redux/actions";
 // }
 
 
-const ActivityCreator = () => {
-  const [name, setName] = useState("");
+const InputActivityCreator = (props) => {
+  const [name, setName] = useState(null);
   const [difficulty, setDifficulty] = useState(1);
   const [duration, setDuration] = useState(1);
-  const [season, setSeason] = useState("All year");
-  const [arrayCountries, setArrayCountries] = useState("");
+  const [season, setSeason] = useState(null);
 
+  const [nameError, setNameError] = useState(null);
+  const [difficultyError, setDifficultyError] = useState(null);
+  const [durationError, setDurationError] = useState(null);
+  const [seasonError, setSeasonError] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
 
-  const [nameError, setNameError] = useState("");
-  const [difficultyError, setDifficultyError] = useState("");
-  const [durationError, setDurationError] = useState("");
-  const [seasonError, setSeasonError] = useState("");
-  const [arrayCountriesError, setArrayCountriesError] = useState("");
-
-  
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Validuration input fields
-    if (!name) {
-      setNameError("Title is required");
-      return;
-    }
-    if (!difficulty) {
-      setDifficultyError("Difficulty is required");
-      return;
-    }
-    if (!duration) {
-      setDurationError("Duration is required");
-      return;
-    }
-    if (!season) {
-        setArrayCountriesError("Season is required");
-        return;
-      }
-    if (!arrayCountries) {
-      setArrayCountriesError("ArrayCountries is required");
-      return;
-    }
-
-    // Submit the form if validation passes
-    console.log("Form submitted with name:", name, "difficulty:", difficulty, "duration:", duration, "arrayCountries:", arrayCountries);
-  };
+  const isButtonDisabled = !nameError || !difficultyError || !durationError || !seasonError || submitted;
+  const areInputsDisabled = submitted;
 
   const handleNameChange = (event) => {
     setName(event.target.value);
-    setNameError("");
+    setNameError("Error");
   };
 
   const handleDifficultyChange = (event) => {
     setDifficulty(event.target.value);
-    setDifficultyError("");
+    setDifficultyError("Error");
   };
 
   const handleDurationChange = (event) => {
     setDuration(event.target.value);
-    setDurationError("");
+    setDurationError("Error");
   };
 
   const handleSeasonChange = (event) => {
     setSeason(event.target.value);
-    setSeasonError("");
-    console.log(event.target.value)
-  };
-
-  const handleArrayCountriesChange = (event) => {
-    setArrayCountries(event.target.value);
-    setArrayCountriesError("");
+    setSeasonError("Error");
   };
   
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    setFormSuccess(true);
+  };
+
+  function Response(){
+    let aux = [];
+    aux.push(name,difficulty,duration,season)
+    props.updateArrayItem(aux)
+  }
+  
+//   [ 
+//     0 --->    "name": "Football 9",
+//     1 --->    "difficulty": 1,
+//     2 --->    "duration": 2,
+//     3--->    "season": "Summer",
+//   ]
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   return (
     <div className={styles.container}>
@@ -90,61 +76,64 @@ const ActivityCreator = () => {
         {/* <h2>Create New Activity</h2> */}
         <div className={styles.row}>
             <label htmlFor="name">Name:</label>
-            <input type="text" id="name" value={name} onChange={handleNameChange} />
+            <input type="text" id="name" value={name} onChange={handleNameChange} disabled={areInputsDisabled}/>
         </div>
         <div className={styles.row}>
             <label htmlFor="difficulty">Difficulty (1-5): {difficulty} </label>
-            <input type="range" id="difficulty" value={difficulty} min="1" max="5" onChange={handleDifficultyChange}/>
+            <input type="range" id="difficulty" value={difficulty} min="1" max="5" onChange={handleDifficultyChange} disabled={areInputsDisabled}/>
         </div>
         <div className={styles.row}>
             <label htmlFor="duration">Duration (1-24 hs): {duration}</label>
-            <input type="range" id="duration" value={duration} min="1" max="24" onChange={handleDurationChange} />
+            <input type="range" id="duration" value={duration} min="1" max="24" onChange={handleDurationChange} disabled={areInputsDisabled}/>
         </div>
         {/* <div className={styles.row}>
             <label htmlFor="season">Season:</label>
             <input type="text" id="season" value={season} onChange={handleSeasonChange} />
         </div> */}
 
-        <div className={styles.row}>
+        <div className={styles.row} onChange={handleSeasonChange} >
             <label htmlFor="season" style={{width: "70px"}}>Season:</label>
 
-            <input type="radio" id="All year" name="season" value="All year" onChange={handleSeasonChange}/>
+            <input type="radio" id="All year" name="season" value="All year" disabled={areInputsDisabled}/>
             <label for="All year" style={{width: "70px"}} >All year</label>
 
-            <input type="radio" id="Summer" name="season" value="Summer" onChange={handleSeasonChange}/>
+            <input type="radio" id="Summer" name="season" value="Summer" disabled={areInputsDisabled}/>
             <label for="Summer" style={{width: "70px"}}>Summer</label>
             
-            <input type="radio" id="Autumn" name="season" value="Autumn" onChange={handleSeasonChange}/>
+            <input type="radio" id="Autumn" name="season" value="Autumn" disabled={areInputsDisabled}/>
             <label for="Autumn" style={{width: "70px"}}>Autumn</label>
             
         </div>
-        <div className={styles.row}>
-             <input type="radio" id="Winter" name="season" value="Winter" onChange={handleSeasonChange}/>
+        <div className={styles.row} onChange={handleSeasonChange} >
+             <input type="radio" id="Winter" name="season" value="Winter" disabled={areInputsDisabled}/>
             <label for="Winter" style={{width: "70px"}}>Winter</label>
 
-            <input type="radio" id="Spring" name="season" value="Spring" onChange={handleSeasonChange}/>
+            <input type="radio" id="Spring" name="season" value="Spring" disabled={areInputsDisabled}/>
             <label for="Spring" style={{width: "50px"}}>Spring</label>
 
             {/* <input type="submit" onChange={handleSeasonChange} value="Submit" /> */}
         </div>
 
+            <div >
+              <button disabled={isButtonDisabled} type="submit"  onClick={Response}>
+                {formSuccess ? <span>&#x2705; </span>: null}
+                Submit</button>
+            </div>
         {/* <div className={styles.row}>
             <label htmlFor="arrayCountries">Array Countries:</label>
             <input type="arrayCountries" id="arrayCountries" value={arrayCountries} onChange={handleArrayCountriesChange} />
         </div> */}
         
-        <div className={styles.row}>
-            <button type="submit">Create Activity</button>
-        </div>
+        
       </form>
-      <div className={styles.minimap}>
-        {/* Code to display and interact with the map */}
-      </div>
+      {/* <div className={styles.minimap}>
+        Code to display and interact with the map
+      </div> */}
     </div>
   );
 };
 
-export default ActivityCreator;
+export default InputActivityCreator;
 
 
 
