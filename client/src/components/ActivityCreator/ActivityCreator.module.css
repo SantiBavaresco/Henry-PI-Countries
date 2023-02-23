@@ -23,6 +23,11 @@ table {
     padding: 8px;
     background-color: rgba(128, 128, 128, 0.685);
   }
+
+  tbody td:disabled {
+    opacity: 0.5;
+    cursor: default;
+  } 
   
   select {
     width: 100%;
