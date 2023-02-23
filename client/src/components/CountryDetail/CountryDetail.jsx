@@ -30,6 +30,10 @@ export function CountryDetail(props) {
     dispatch ( getCountryDetailByID(id) );
   }, [id]);
 
+  function handleReturn() {
+    window.history.back()
+  }
+
   return (
     <div>
       <img src={countryById.flag} alt="No IMG" />
@@ -47,7 +51,7 @@ export function CountryDetail(props) {
       <h4>{countryById.Activities}</h4>
       {/* <ActivityCreator/> */}
 
-
+      <button onClick={handleReturn}>Back</button>
     </div>
   );
 }

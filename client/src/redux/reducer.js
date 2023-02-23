@@ -17,6 +17,7 @@ const initialState = {
   allActivities: [],
   countryById: [],
   countryByString: [],
+  filteredCountries:[],
   error: null,
 }
 
@@ -35,10 +36,22 @@ function sortAsc(aux){
     });
   }
 
+  function sortDes(aux) {
+    return aux.sort((a, b) => {
+      if (a.name > b.name) {
+        return -1;
+      }
+      if (a.name < b.name) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
     switch(action.type) {
 //------------------------------------------------------------------------- 
         case GET_ALL:  
-          return{ ...state, allCountries: sortAsc(action.payload), countriesFound: sortAsc(action.payload) }
+          return{ ...state, allCountries: action.payload, countriesFound: sortAsc(action.payload) }
 //------------------------------------------------------------------------- 
         case GET_COUNTRY_DETAIL_BY_ID:
           initialState.error = null;
@@ -61,33 +74,38 @@ function sortAsc(aux){
 //-------------------------------------------------------------------------    
 // -------------------- MODIFICAR ESTE FILTER !!!!! esta por continente ?? 
       case FILTER_CARDS: 
+        const filteredCountries = [...state.allCountries];
+        state.countriesFound = [...state.allCountries]
+        console.log("soy el payload de filter",(action.payload));
+
         if(action.payload !== "All"){
-          const filtradoContinent = state.allCountries.filter(
+          console.log("Estoy deltro del if !==All ");
+          const filtradoContinent = state.countriesFound.filter(
           fav => fav.continent === action.payload
           );
+          console.log("SOY LOS COUNTRI FILTRADOS",(filtradoContinent));
           return{
             ...state,
-            allCountries: filtradoContinent,
+            countriesFound: filtradoContinent,
           }
         }
         else{
-          return{...state.allCountries}
+          console.log("ESTOY EN EL ELSE");
+          return{ ...state, countriesFound: filteredCountries}
           // return{...state, myFavorites: state.allCharacters}
         }
 //-------------------------------------------------------------------------         
       case ORDER_CARDS:
         // let filtradoOrder = [];
-        if(action.payload === "Ascendente"){
-          const filtradoOrder = [...state.allCountries].sort( (a, b) => a.id - b.id );
-           return{ ...state, allCountries: filtradoOrder, }
+        if(action.payload === "za"){
+          const all = sortAsc([...state.allCountries])
+          const found = sortAsc([...state.countriesFound])
+          return{ ...state, allCountries: all, countriesFound: found }
         }
-        else if(action.payload === "Descendente"){
-          const filtradoOrder = [...state.allCountries].sort(
-            (a, b) => b.id - a.id );
-          return{
-              ...state,
-              allCountries: filtradoOrder,
-          }
+        else if(action.payload === "az"){
+          const all = sortDes([...state.allCountries])
+          const found = sortDes([...state.countriesFound])
+          return{ ...state, allCountries: all, countriesFound: found }
         
       }
 //-------------------------------------------------------------------------         
