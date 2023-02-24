@@ -2,13 +2,12 @@
   text-align: center;
   /* width: 100%;
   height: 60%; */
-  background: url("./img/fondo8.png");
+  background: url("./img/fondo9.png");
   /* background-size: auto; */
   background-size: 100vh;
-  /* background-repeat: no-repeat; */
-  background-position: center top;
-  /* background-size:auto contain */
-
+  background-size: cover;
+  background-position:inherit;
+  background-attachment:fixed;
   /* background-position: center; */
 
 }

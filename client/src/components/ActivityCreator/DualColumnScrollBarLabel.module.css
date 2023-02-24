@@ -40,13 +40,15 @@ ul{
     padding-right: 0;
   }
   
-  label {
+  .label1 {
     display: block;
     margin: 5px 0;
+    width: 25vw;
   }
   
   input[type="checkbox"] {
     margin-right: 5px;
+    
   }
   
   button {

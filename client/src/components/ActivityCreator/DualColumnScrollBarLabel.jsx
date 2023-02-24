@@ -65,7 +65,7 @@ export default function DualColumnScrollBarLabel(props) {
                     <div className={styles.column}>
                         {AllCountries.slice(0, Math.ceil(AllCountries.length / 2)).map((country, index) => (
                         <div key={country.ID}>
-                            <label>
+                            <label className={styles.label1}>
                             <input
                                 type="checkbox"
                                 value={country.ID}
@@ -81,7 +81,7 @@ export default function DualColumnScrollBarLabel(props) {
                     <div className={styles.column}>
                         {AllCountries.slice(Math.ceil(AllCountries.length / 2)).map((country, index) => (
                         <div key={country.ID}>
-                            <label>
+                            <label className={styles.label1}>
                             <input
                                 type="checkbox"
                                 value={country.ID}
