@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link, Outlet } from "react-router-dom";  
 import Country from "../Country/Country";
+import Pager from "../Pager/Pager";
 import { getAllCountries, getCountryDetailByID, getCountryDetailByString, getActivities, orderCards, filterCards}
    from "../../redux/actions";
 
@@ -14,6 +15,13 @@ function Countries(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [Order, setOrder] = useState("az")
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [countriesPerPage, setcountriesPerPage] = useState(24);
+  const indexLastCountry = currentPage * countriesPerPage;
+  const indexFirstCountry = indexLastCountry - countriesPerPage;
+  const countriesToShow = countriesFound.slice(indexFirstCountry, indexLastCountry);
+
 
   const error = useSelector(state => state.error);
 
@@ -57,6 +65,17 @@ function Countries(props) {
   //    // setUserInput(evento.target.value);
   //  }
    
+
+
+  const paginated = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleChangePerPage = async (event) => {
+    setcountriesPerPage(event.target.value);
+    // await dispatch(orderCards(Order) )
+  };
+
   const handleChangeOrder = async (event) => {
     setOrder(event.target.value);
     await dispatch(orderCards(Order) )
@@ -79,11 +98,14 @@ function Countries(props) {
     <div style={{ minHeight: "85vh"}}>
       
       <div className={styles.filters}>
-        <select id="order" onChange={handleChangeOrder} value={Order}>
+        <h1 style={{ fontSize: "16px"}}>Order</h1>
+        <select id="order" style={{marginLeft: "10px"}}
+              onChange={handleChangeOrder} value={Order}>
           <option value="az" >A - Z</option>
           <option value="za">Z - A</option>
         </select>
 
+        <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Continent</h1>
         <select id="continent" style={{marginLeft: "10px"}} 
                   onChange={handleChangeFilter}
                   >
@@ -95,9 +117,26 @@ function Countries(props) {
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
           <option value="Unknown">Unknown</option>
-
         </select>
+
+        <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>C/Page</h1>
+        <select id="perPage" style={{marginLeft: "10px", width:"60px"}} 
+                  onChange={handleChangePerPage}
+                  >
+          <option value="18">18</option>
+          <option value="24">24</option>
+          <option value="48">48</option>
+          <option value="60">60</option>
+          <option value="72">72</option>
+        </select>
+
+       
       </div>
+      <Pager
+            countriesPerPage={countriesPerPage}
+            countries={countriesFound.length}
+            paginated={paginated}
+          />
 
       <div className={styles.cards_container}>
         {/* {console.log("len string:", countryByString.length)}
@@ -108,8 +147,8 @@ function Countries(props) {
         {
 
         // ((countryByString.length !== 250) || (countryByString.length === 0)) ? (
-          countriesFound ? (
-            countriesFound.map((c) => {
+          countriesToShow ? (
+            countriesToShow.map((c) => {
             return (
               <Country
                 key={c?.ID}

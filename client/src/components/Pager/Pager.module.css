@@ -1,0 +1,25 @@
+.page_ul{
+    font-size: 23px;
+    display: inline
+}
+.page_ul:hover{
+    font-size: 23px;
+    
+}
+.num_page{
+    all: initial;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 23px;
+    /* display: inline; */
+
+    
+}
+.num_page:hover, .num_page:focus{
+    /* all: revert; */
+    font-size: 23px;
+    display: inline;
+    border-radius: 10px;
+    background-color: rgb(9, 110, 9);
+    color: white;
+}

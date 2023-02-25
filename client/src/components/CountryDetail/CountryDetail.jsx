@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom"; 
-import MapLoader from './mapita';
+import styles from "./CountryDetail.module.css"
+import {zoomValue, validateName} from './ValidateZoomAndName';
+
 
 // import ActivityCreator from "../ActivityCreator/ActivityCreator"
 
@@ -11,7 +13,7 @@ import React from "react";
 //import { useDispatch } from "react-redux";
 //import { getAllCountries, getActivities, getCountryDetailByID } from "../../redux/actions";
 
-
+import Linker from './Linker';
    
 import { getCountryDetailByID } from "../../redux/actions";
 
@@ -21,12 +23,16 @@ import { getCountryDetailByID } from "../../redux/actions";
 //   return mapita
 // }
 
+
+
 export function CountryDetail(props) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { countryById } = props;
 
-  const [imageLoaded, setImageLoaded] = useState(false);
+
+
+  // const [imageLoaded, setImageLoaded] = useState(false);
   console.log("-----------------------------");
   console.log(id)
 
@@ -40,62 +46,73 @@ export function CountryDetail(props) {
   useEffect(() => {
     dispatch ( getCountryDetailByID(id) );
 
-    const img = new Image();
-    img.addEventListener('load', () => {
-      setImageLoaded(true);
-    });
-    img.src = "https://staticmap.php?center=45.71,-52.21&zoom=14&size=865x512&maptype=mapnik"
-
-    // https://www.openstreetmap.org/#map=3/-45.71/-52.21
-    
-
   }, []);
 
   function handleReturn() {
     window.history.back()
   }
 
+
   return (
-    <div>
-      <img src={countryById.flag} alt="No IMG" />
-      {/* {detail.dishTypes ? <h3>{detail.dishTypes.join(", ")}</h3> : <h3></h3>}
-      {detail.diets ? <h3>{detail.diets.join(", ")}</h3> : <h3></h3>} */}
-      <h4></h4>
-      <h1>{countryById.name}</h1>
-      <h4>
-        Capital: {countryById.capital}<br />
-        Continent: {countryById.continent}<br />
-        Subregion: {countryById.subregion}<br />
-        Area: {countryById.area} km2<br />
-        Population: {countryById.population}<br />
-        Time-Zone: {countryById.timezone}<br />
-        Map: {countryById.maps}<br />
-        {/* Activities: {countryById.Activities}<br /> */}
+    <div >
+      {/* <div style={{display:"flex", justifyContent: "space-evenly"}}>
+        <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+      </div> */}
 
-      <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${countryById.name}&zoom=4&size=640x640&maptype=roadmap&key=AIzaSyCiaBwsIYOlBZ12Sn_gxp8O-c_mIQ3j3D8`} alt="No IMG" />
+      <div className={styles.country_countainer}>
+        
+        <div style={{maxWidth:"45vw"}} >
 
-      {/* <MapLoader></MapLoader> */}
+           <h1 className={styles.textH1}>{countryById.name}</h1>
+          
+          <div className={styles.country_info}>
+          <img src={countryById.flag} alt="No IMG" />
+          {/* {detail.dishTypes ? <h3>{detail.dishTypes.join(", ")}</h3> : <h3></h3>}
+          {detail.diets ? <h3>{detail.diets.join(", ")}</h3> : <h3></h3>} */}
+          </div>
+          <div>
+            <div style={{ display: "flex" }}>
+              <div style={{ flex: 1 }}>
+                <h4 className={styles.textH4}>
+                  Capital: {countryById.capital}<br />
+                  Continent: {countryById.continent}<br />
+                  Subregion: {countryById.subregion}<br />
+                  Area: {countryById.area} km2<br />
+                  Population: {countryById.population}<br />
+                  Time-Zone: {countryById.timezone}<br />
+                  {/* Map: {countryById.maps}<br /> */}
+                </h4>
+              </div>
+              <div style={{ flex: 1 }}>
+                <h4 className={styles.textH4}>
+                  Activities: 
+                  {countryById.Activities?.map((e) => { return <li> {e} </li> })}
+                </h4>
+              </div>
+           </div>
+          </div>
+        </div>
 
-      </h4>
-      {/* <!-- Create a Twitter profile picture in grayscale, with a white border --> */}
-      {/* apikey = sVkiE6XMMn0rowhh3kPGBrDtJyUkow0KCfEBqkDY */}
-      {/* <img src="https://onesimpleapi.com/api/screenshot?token=sVkiE6XMMn0rowhh3kPGBrDtJyUkow0KCfEBqkDY&output=redirect&url=https://www.openstreetmap.org/relation/286393"/> */}
-    
-      {/* <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/relation/286393" style="border: 1px solid black"> </iframe> */}
-      {/* <br/>
-      <small>
-        <a href="https://www.openstreetmap.org/relation/286393">Ver mapa más grande</a></small> */}
-      {/* <Mapita></Mapita> */}
-      {/* <img src={countryById.maps} alt="No IMG" /> */}
+        <div className={styles.country_map}>
+          <Linker href={countryById.maps}>
+            <img 
+              src={`https://maps.googleapis.com/maps/api/staticmap?center=${validateName(countryById.name)}
+              &zoom=${zoomValue(countryById.area, countryById.ID)}
+              &size=640x640&maptype=roadmap
+              &key=AIzaSyCiaBwsIYOlBZ12Sn_gxp8O-c_mIQ3j3D8`} 
+              alt="No IMG" 
+            />
+          </Linker>
+        </div>
+        {/* <h4> Activities: {countryById.Activities.map( (e) =>{ return <li> { e } </li>})}</h4> */}
+        {/* <ActivityCreator/> */}
 
-      
-      {/* <h4> Activities: {countryById.Activities.map( (e) =>{ return <li> { e } </li>})}</h4> */}
+      </div>
 
-      {/* <ActivityCreator/> */}
+      <div style={{display:"flex", justifyContent: "space-evenly"}}>
+        <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+      </div>
 
- 
-
-      <button onClick={handleReturn}>Back</button>
     </div>
   );
 }

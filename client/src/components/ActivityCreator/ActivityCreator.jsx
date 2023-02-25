@@ -116,9 +116,9 @@ function ActivityCreator(props) {
 // consologuero(allCountries)
 // console.log("++++++++++++++++++++++++++++++++++++++++++++");
 
-  function consologuero(aux){
-    console.log("ESTE ES UN CONSOLELOG: ", aux)
-  }
+  // function consologuero(aux){
+  //   console.log("ESTE ES UN CONSOLELOG: ", aux)
+  // }
   // consologuero(inputArray[1]) // aca me viene la data del input (name,diff,dur,season)
   // consologuero(dualColumnArray[1])
   // console.log("ESTOS SON LOS PASISES", consologuero(dualColumnArray[1]))
@@ -133,13 +133,13 @@ function ActivityCreator(props) {
     else { emptyActivity = false; }
 
     if(random.length !== 0 && !emptyActivity) {
-      console.log("////////////////RANDOM HABILITADO");
-      console.log(ActivityResponseBuilder(inputArray[1], random))
+      // console.log("////////////////RANDOM HABILITADO");
+      // console.log(ActivityResponseBuilder(inputArray[1], random))
       props.createActivity( ActivityResponseBuilder(inputArray[1], random) )
       handleReturn()
     }
     else if(!emptyActivity && !emptyCountries && random.length === 0){
-      console.log(ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]))
+      // console.log(ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]))
       props.createActivity (ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]) )
       handleReturn()
     }
@@ -165,25 +165,39 @@ function ActivityCreator(props) {
           {/* <ChildComponent onArrayUpdate={(newArray) => setMyArray(newArray)} /> */}
             <InputActivityCreator array={inputArray} updateArrayItem={updateArrayItem}  />
 
-            <div className={styles.row}>
-              <label>
-                  <input type="checkbox" value="Random" checked={random.includes("Random")} onClick={handleRandomChange} onChange={handleRandomIsChecked}
-                  />
-                Use Random's Countries.
-              </label>
+            <div style={{ display: "flex" }}>
+
+                <div style={{ flex: 1 }}>
+                  <div className={styles.row}>
+                    <button type="submit" onClick={handleSubmit} disabled={false} >Create Activity</button>
+                  </div>
+                </div>
+
+                <div style={{ flex: 1 }}>
+                  <div className={styles.row}>
+                    <label>
+                        <input type="checkbox" value="Random" checked={random.includes("Random")} 
+                          onClick={handleRandomChange} onChange={handleRandomIsChecked}
+                        />
+                      Random Countries (Ignores the selected countries &#x27A1;).
+                    </label>
+                  </div>
+                </div>
+
             </div>
-
-
-            <div className={styles.row}>
-              <button type="submit" onClick={handleSubmit} disabled={false} >Create Activity</button>
+            
+            <div style={{display:"flex", justifyContent: "space-evenly"}}>
+              <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
             </div>
-
-         
-
+            
           </td>
 
           <td >
-            <DualColumnScrollBarLabel array={dualColumnArray} updateArrayCountries={updateArrayCountries}  AllCountries={allCountries} disabled={randomIsChecked}/>
+            <DualColumnScrollBarLabel array={dualColumnArray} 
+                updateArrayCountries={updateArrayCountries}  
+                AllCountries={allCountries} 
+                disabled={randomIsChecked}
+            />
           </td>
 
         </tr>

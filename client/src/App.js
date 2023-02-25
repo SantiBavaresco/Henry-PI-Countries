@@ -9,7 +9,7 @@ import NavBar from "./components/NavBar/NavBar"
 import ActivityCreator from "./components/ActivityCreator/ActivityCreator"
 import AdvancedActivityCreator from "./components/AdvancedActivityCreator/AdvancedActivityCreator"
 import Error404 from "./components/Error404/Error404"
-import Mapita from "./components/CountryDetail/mapita"
+
 
 
 import MainParallax from "./components/Parallax/MainParallax"

@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function Error404(){
     const navigate = useNavigate();
-    
+    function handleReturn() {
+        window.history.back()
+      }
     return( 
     <div >
         {/* <span >  */}
@@ -29,6 +31,9 @@ export default function Error404(){
             <button onClick={()=>navigate("/home")} className={styles.button}
             style={{marginTop: "2%", marginBottom: "2%"}}>Volver</button>
         </div> */}
+        <div style={{display:"flex", justifyContent: "space-evenly"}}>
+        <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+      </div>
     </div>
     );
 }
