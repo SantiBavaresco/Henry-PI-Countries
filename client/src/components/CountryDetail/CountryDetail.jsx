@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom"; 
-import Mapita from './mapita';
+import MapLoader from './mapita';
 
 // import ActivityCreator from "../ActivityCreator/ActivityCreator"
 
@@ -47,6 +47,7 @@ export function CountryDetail(props) {
     img.src = "https://staticmap.php?center=45.71,-52.21&zoom=14&size=865x512&maptype=mapnik"
 
     // https://www.openstreetmap.org/#map=3/-45.71/-52.21
+    
 
   }, []);
 
@@ -71,6 +72,10 @@ export function CountryDetail(props) {
         Map: {countryById.maps}<br />
         {/* Activities: {countryById.Activities}<br /> */}
 
+      <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${countryById.name}&zoom=4&size=640x640&maptype=roadmap&key=AIzaSyCiaBwsIYOlBZ12Sn_gxp8O-c_mIQ3j3D8`} alt="No IMG" />
+
+      {/* <MapLoader></MapLoader> */}
+
       </h4>
       {/* <!-- Create a Twitter profile picture in grayscale, with a white border --> */}
       {/* apikey = sVkiE6XMMn0rowhh3kPGBrDtJyUkow0KCfEBqkDY */}
@@ -84,15 +89,11 @@ export function CountryDetail(props) {
       {/* <img src={countryById.maps} alt="No IMG" /> */}
 
       
-      <h4> Activities: {countryById.Activities.map( (e) =>{ return <li> { e } </li>})}</h4>
+      {/* <h4> Activities: {countryById.Activities.map( (e) =>{ return <li> { e } </li>})}</h4> */}
 
       {/* <ActivityCreator/> */}
 
-      <div>
-      {!imageLoaded && <p>Loading image...</p>}
-      {imageLoaded && <img src= "https://staticmap.php?center=40.714728,-73.998672&zoom=14&size=865x512&maptype=mapnik"
-      alt="Custom Image" />}
-    </div>
+ 
 
       <button onClick={handleReturn}>Back</button>
     </div>

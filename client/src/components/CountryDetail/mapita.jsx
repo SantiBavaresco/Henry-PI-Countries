@@ -1,34 +1,48 @@
-// import React, { useRef, useEffect, useState } from 'react';
-// import ReactDOM from 'react-dom';
+import React, { useEffect } from 'react';
 
-// export default function Mapita() {
-//   const screenshotRef = useRef(null);
-//   const [screenshotSrc, setScreenshotSrc] = useState(null);
+function FranceBorderMap() {
+  useEffect(() => {
+    // Create a new map object centered on France
+    const map = new window.google.maps.Map(document.getElementById('map'), {
+      center: {lat: 46.2276, lng: 2.2137},
+      zoom: 6
+    });
 
-//   useEffect(() => {
-//     const elementToCapture = screenshotRef.current;
-//     const canvas = document.createElement('canvas');
-//     canvas.width = elementToCapture.offsetWidth;
-//     canvas.height = elementToCapture.offsetHeight;
-//     const context = canvas.getContext('2d');
-//     context.drawImage(elementToCapture, 0, 0);
-//     const dataUrl = canvas.toDataURL();
-//     setScreenshotSrc(dataUrl);
-//   }, []);
+    // Load the GeoJSON data for the border of France
+    const franceBorder = new window.google.maps.Data();
+    franceBorder.loadGeoJson('https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson');
 
-//   return (
-//     <div>
-//       <h1>Hello, world!</h1>
-//       <img
-//         ref={screenshotRef}
-//         src="https://www.openstreetmap.org/relation/286393"
-//         alt="Image"
-//       />
-//       {screenshotSrc && <img src={screenshotSrc} alt="Screenshot" />}
-//     </div>
-//   );
-// }
+    // Add the border to the map
+    franceBorder.setMap(map);
+  }, []);
 
-// const rootElement = document.getElementById('root');
+  return (
+    <div id="map" style={{ height: '100vh' }}></div>
+  );
+}
 
-// ReactDOM.createRoot(rootElement).render(<Mapita/>);
+function loadScript(url, callback) {
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = url;
+  script.onload = callback;
+  document.head.appendChild(script);
+}
+
+class MapLoader extends React.Component {
+  componentDidMount() {
+    loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyCiaBwsIYOlBZ12Sn_gxp8O-c_mIQ3j3D8`, () => {
+      this.forceUpdate();
+    });
+  }
+
+  render() {
+    if (typeof window.google === 'undefined') {
+      return null;
+    }
+
+    return <FranceBorderMap />;
+  }
+}
+
+export default MapLoader;
