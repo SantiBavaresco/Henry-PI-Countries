@@ -11,13 +11,13 @@ import { getAllCountries, getCountryDetailByID, getCountryDetailByString, getAct
 
 
 function Countries(props) {
-  const { allCountries, countryByString, allActivities, countriesFound, filterByContinent, pagerCurrentPage } = props;
+  const { allCountries, countryByString, allActivities, countriesFound, filterByContinent, pagerCurrentPage, orderState } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Order, setOrder] = useState("az")
+  const [Order, setOrder] = useState(orderState)
 
   const [currentPage, setCurrentPage] = useState(pagerCurrentPage);
-  const [countriesPerPage, setcountriesPerPage] = useState(24);
+  const [countriesPerPage, setcountriesPerPage] = useState(18); // < --- Para el PI hay que setearlo en 10
   const indexLastCountry = currentPage * countriesPerPage;
   const indexFirstCountry = indexLastCountry - countriesPerPage;
   const countriesToShow = countriesFound.slice(indexFirstCountry, indexLastCountry);
@@ -83,9 +83,14 @@ function Countries(props) {
     // await dispatch(orderCards(Order) )
   };
 
-  const handleChangeOrder = async (event) => {
+  const handleChangeOrder =(event) => {
     setOrder(event.target.value);
-    await dispatch(orderCards(Order) )
+    console.log("--------------");
+
+    console.log(event.target.value);
+    console.log(Order);
+
+    dispatch(orderCards(event.target.value) )
   };
 
   // dispatch(orderCards(Order) )
@@ -113,6 +118,9 @@ function Countries(props) {
               onChange={handleChangeOrder} value={Order}>
           <option value="az" >A - Z</option>
           <option value="za">Z - A</option>
+          <option value="hp">Higher Population</option>
+          <option value="lp">Lower Population</option>
+
         </select>
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Continent</h1>
@@ -132,8 +140,10 @@ function Countries(props) {
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>C/Page</h1>
         <select id="perPage" style={{marginLeft: "10px", width:"60px"}} 
-                  onChange={handleChangePerPage}
+                value = {countriesPerPage}
+                onChange = {handleChangePerPage}
                   >
+          <option value="10">10</option>
           <option value="18">18</option>
           <option value="24">24</option>
           <option value="48">48</option>
@@ -201,7 +211,8 @@ export function mapStateToProps(state) {
     countryByString: state.countryByString,
     countriesFound: state.countriesFound,
     filterByContinent: state.filterByContinent,
-    pagerCurrentPage: state.pagerCurrentPage
+    pagerCurrentPage: state.pagerCurrentPage,
+    orderState : state.orderState,
   };
 }
 

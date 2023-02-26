@@ -140,27 +140,41 @@ function Navbar() {
         <nav className={styles.links}>
           <div>
             
-            <a href="/activityCreator" className={styles.logoRoutes}>
+            <Link to={"/activityCreator"} className={styles.logoRoutes}> 
+            {/* <a href="/activityCreator" className={styles.logoRoutes}> */}
               Create Activity &#x23E9;
-            </a>
-            <a href="/advancedActivityCreator" className={styles.logoRoutes}>
+            {/* </a> */}
+            </Link>
+
+            <Link to={"/advancedActivityCreator"} className={styles.logoRoutes}> 
+            {/* <a href="/advancedActivityCreator" className={styles.logoRoutes}> */}
               Create Advanced Activity &#x23E9;
-            </a>
+            {/* </a> */}
+            </Link>
+
           </div>
-
-           <a href="/countries">
+          <Link to={"/countries"} className={styles.logoRoutes}>
+           {/* <a href="/countries"> */}
             <img src={iWorld} alt="Home" className={styles.logoRoutes}/>
-          </a>
+          {/* </a> */}
+          </Link>
 
-          <a href="/profile" className={styles.logoRoutes}>
+
+          <Link to={"/profile"} className={styles.logoRoutes}> 
+          {/* <a href="/profile" className={styles.logoRoutes}> */}
             {/* Profile&#x1F51C;  */}
             <img src={iProfile} alt="Profile" />
-          </a>
+          {/* </a> */}
+          </Link>
 
-          <a href="/settings" className={styles.logoRoutes}>
+
+          <Link to={"/settings"} className={styles.logoRoutes}> 
+          {/* <a href="/settings" className={styles.logoRoutes}> */}
             {/* Settings&#x1F51C;  */}
             <img src={iSettings} alt="Settings" />
-          </a>
+          {/* </a> */}
+          </Link>
+
 
         </nav>
 

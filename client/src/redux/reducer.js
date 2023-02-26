@@ -20,6 +20,7 @@ const initialState = {
   countryByString: [],
   filteredCountries:[],
   filterByContinent:"All",
+  orderState:"az",
   pagerCurrentPage: 1,
   error: null,
 }
@@ -50,6 +51,19 @@ function sortAsc(aux){
       return 0;
     });
   }
+
+function sortPopAsc(aux){
+    return aux.sort((a, b) => {
+      return a.population - b.population;
+    });
+  }
+
+  function sortPopDes(aux) {
+    return aux.sort((a, b) => {
+      return b.population - a.population;
+    });
+  }
+  
 
     switch(action.type) {
 //------------------------------------------------------------------------- 
@@ -99,17 +113,56 @@ function sortAsc(aux){
 //-------------------------------------------------------------------------         
       case ORDER_CARDS:
         // let filtradoOrder = [];
-        if(action.payload === "za"){
-          const all = sortAsc([...state.allCountries])
-          const found = sortAsc([...state.countriesFound])
-          return{ ...state, allCountries: all, countriesFound: found }
+        switch(action.payload) {
+            
+            case "az":{
+              state.orderState = action.payload
+              const all = sortAsc([...state.allCountries], "name")
+              const found = sortAsc([...state.countriesFound], "name")
+              return{ ...state, allCountries: all, countriesFound: found }
+            }
+            case "za":{
+              state.orderState = action.payload
+              const all = sortDes([...state.allCountries],)
+              const found = sortDes([...state.countriesFound],)
+              return{ ...state, allCountries: all, countriesFound: found }
+            }
+            
+            case "lp":{
+              state.orderState = action.payload
+              const all = sortPopAsc([...state.allCountries],)
+              const found = sortPopAsc([...state.countriesFound], ) 
+              return{ ...state, allCountries: all, countriesFound: found }
+            } 
+            
+            case "hp":{
+              state.orderState = action.payload
+              const all = sortPopDes([...state.allCountries],)
+              const found = sortPopDes([...state.countriesFound],)
+              return{ ...state, allCountries: all, countriesFound: found }
+            }
+            
         }
-        else if(action.payload === "az"){
-          const all = sortDes([...state.allCountries])
-          const found = sortDes([...state.countriesFound])
-          return{ ...state, allCountries: all, countriesFound: found }
-        
-      }
+        // if(action.payload === "za"){
+        //   const all = sortAsc([...state.allCountries], "name")
+        //   const found = sortAsc([...state.countriesFound], "name")
+        //   return{ ...state, allCountries: all, countriesFound: found }
+        // }
+        // else if(action.payload === "az"){
+        //   const all = sortDes([...state.allCountries],)
+        //   const found = sortDes([...state.countriesFound],)
+        //   return{ ...state, allCountries: all, countriesFound: found }
+        // }
+        // else if(action.payload === "hp"){
+        //   const all = sortPopAsc([...state.allCountries],)
+        //   const found = sortPopAsc([...state.countriesFound], )
+        //   return{ ...state, allCountries: all, countriesFound: found }
+        // }
+        // else if(action.payload === "lp"){
+        //   const all = sortPopDes([...state.allCountries],)
+        //   const found = sortPopDes([...state.countriesFound],)
+        //   return{ ...state, allCountries: all, countriesFound: found }
+        // }
 //-------------------------------------------------------------------------         
       case SAVE_PERPAGE:
         return { ...state, pagerCurrentPage: action.payload };

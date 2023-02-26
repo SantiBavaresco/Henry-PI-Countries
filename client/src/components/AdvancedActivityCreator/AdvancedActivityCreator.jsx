@@ -1,24 +1,64 @@
 import React from 'react';
-import { useState } from 'react';
-import "./AdvancedActivityCreator.model.css"
+import { useState , useEffect } from 'react';
+import styles from "./AdvancedActivityCreator.model.css"
+import { connect, useDispatch, useSelector } from "react-redux";
+import { getAllCountries, getActivities, createActivity} from "../../redux/actions";
 import DualColumnScrollBarLabel from './DualColumnScrollBarLabel';
 
 
-function AdvancedActivityCreator() {
+function AdvancedActivityCreator(props) {
+  const dispatch = useDispatch();
+  const { allCountries, allActivities} = props;
+  // let empty = true;
+
+
+
     const [selectedOption, setSelectedOption] = useState('Option 1');
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
 
   // Example data for the selector, activities, and countries
-  const selectorOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-  const activityOptions = ['Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3'];
-  const countryOptions = ['Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3',
-  'Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2',
-   'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1',
-    'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3',
-    'Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 
-    'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2',
-     'Country 3','Country 1', 'Country 2', 'Country 3'];
+
+  const activityOptions = allActivities.map( (element)=> {return element.name})
+
+
+     const [inputArray, setInputArray] = useState([]); // aca me viene la data del input (name,diff,dur,season)
+     const [dualColumnArray, setDualColumnArray] = useState([]); // aca me viene la data del scroll (paises)
+
+     const [formSuccess, setFormSuccess] = useState(false);
+   
+     let emptyCountries = true;
+     let emptyActivity = true;
+
+
+     useEffect(() => {
+      dispatch (getAllCountries());
+      dispatch (getActivities());
+
+      console.log("ACTIVIDDES: ", allActivities?.map( (element)=> {return element.id}))
+      console.log("Selected countries: ", dualColumnArray?.[1]?.[0]);  //-------------------- tira error con undefined
+      // console.log("Selected countries 2: ", selectedCountries);
+
+      console.log("actividades cheked useefect: ", selectedActivities);
+
+
+
+  
+  
+      //console.log(dispatch (getCountryDetailByString("islan")))
+    }, [selectedActivities, dualColumnArray]);
+  
+    // const updateArrayItem = (newValue) => {
+    //   setInputArray([inputArray, newValue ]);
+    //   console.log("Selected activities: ", inputArray);
+    // };
+    
+    const updateArrayCountries = (newValue) => {
+      setDualColumnArray([dualColumnArray, newValue ]);
+      // console.log("Selected countries: ", dualColumnArray[1]);
+
+    };
+    
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -32,17 +72,41 @@ function AdvancedActivityCreator() {
     } else {
       setSelectedActivities(selectedActivities.filter((a) => a !== activity));
     }
+    console.log("actividades cheked: ", selectedActivities);
+
   };
 
-  const handleCountryChange = (event) => {
-    const country = event.target.value;
-    const isChecked = event.target.checked;
-    if (isChecked) {
-      setSelectedCountries([...selectedCountries, country]);
-    } else {
-      setSelectedCountries(selectedCountries.filter((c) => c !== country));
+  // const handleCountryChange = (event) => {
+  //   const country = event.target.value;
+  //   const isChecked = event.target.checked;
+  //   if (isChecked) {
+  //     setSelectedCountries([...selectedCountries, country]);
+  //   } else {
+  //     setSelectedCountries(selectedCountries.filter((c) => c !== country));
+  //   }
+  // };
+
+const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if(dualColumnArray[1][0].length === 0) { emptyCountries=true; }
+    else { emptyCountries=false }
+
+    if(inputArray[1]===undefined) { emptyActivity = true; }
+    else { emptyActivity = false; }
+
+    if(!emptyActivity && !emptyCountries ){
+      // console.log(ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]))
+
+      // props.createActivity (ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]) )
+      handleReturn()
     }
+
   };
+
+  function handleReturn() {
+    window.history.back()
+  }
 
   return (
     
@@ -67,21 +131,31 @@ function AdvancedActivityCreator() {
           </td> */}
           <td>
             {activityOptions.map((activity, index) => (
-              <div key={index}>
-                <label>
+              <div key={index} style={{ display: "flex" }}>
+                <label style={{width: "27vw"}}>
                   <input
                     type="checkbox"
                     value={activity}
                     checked={selectedActivities.includes(activity)}
                     onChange={handleActivityChange}
+                    // onClick = {updateArrayItem}
                   />
                   {activity}
                 </label>
               </div>
             ))}
+            <div style={{display:"flex", justifyContent: "space-evenly"}}>
+             <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+            </div>
+
           </td>
           <td>
-          <DualColumnScrollBarLabel/>
+          <DualColumnScrollBarLabel 
+            array={dualColumnArray} 
+            updateArrayCountries={updateArrayCountries}  
+            AllCountries={allCountries} 
+            // disabled={randomIsChecked}
+          />
           </td>
           {/* <td>
             {countryOptions.map((country, index) => (
@@ -143,4 +217,22 @@ function AdvancedActivityCreator() {
     // </div>
 )}
 
-export default AdvancedActivityCreator;
+// export default AdvancedActivityCreator;
+
+export function mapStateToProps(state) {
+  return {
+    allCountries: state.allCountries,
+    allActivities: state.allActivities,
+  };
+}
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    getAllCountries: () => dispatch ( getAllCountries() ),
+    getActivities: () => dispatch ( getActivities() ),
+    createActivity: (activity) => dispatch( createActivity(activity) ) // cambiar por advanced
+
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdvancedActivityCreator);

@@ -14,6 +14,7 @@ import React from "react";
 //import { getAllCountries, getActivities, getCountryDetailByID } from "../../redux/actions";
 
 import Linker from './Linker';
+import PopUpActivity from "../PopUpActivity/PopUpActivity"
    
 import { getCountryDetailByID } from "../../redux/actions";
 
@@ -43,6 +44,10 @@ export function CountryDetail(props) {
 //     await dispatch( getActivities() )
 //   }
 
+  // const algo = ""
+  // let hex = "  😀".codePointAt(0).toString(16)
+  // let emo = String.fromCodePoint("0x"+hex);
+
   useEffect(() => {
     dispatch ( getCountryDetailByID(id) );
 
@@ -63,10 +68,10 @@ export function CountryDetail(props) {
         
         <div style={{maxWidth:"45vw"}} >
 
-           <h1 className={styles.textH1}>{countryById.name}</h1>
+           <h1 className={styles.textH1}>{countryById?.name}</h1>
           
           <div className={styles.country_info}>
-          <img src={countryById.flag} alt="No IMG" />
+          <img src={countryById?.flag} alt="No IMG" />
           {/* {detail.dishTypes ? <h3>{detail.dishTypes.join(", ")}</h3> : <h3></h3>}
           {detail.diets ? <h3>{detail.diets.join(", ")}</h3> : <h3></h3>} */}
           </div>
@@ -74,19 +79,20 @@ export function CountryDetail(props) {
             <div style={{ display: "flex" }}>
               <div style={{ flex: 1 }}>
                 <h4 className={styles.textH4}>
-                  Capital: {countryById.capital}<br />
-                  Continent: {countryById.continent}<br />
-                  Subregion: {countryById.subregion}<br />
-                  Area: {countryById.area} km2<br />
-                  Population: {countryById.population}<br />
-                  Time-Zone: {countryById.timezone}<br />
+                  Capital: {countryById?.capital}<br />
+                  Continent: {countryById?.continent}<br />
+                  Subregion: {countryById?.subregion}<br />
+                  Area: {countryById?.area} km2<br />
+                  Population: {countryById?.population}<br />
+                  Time-Zone: {countryById?.timezone}<br />
                   {/* Map: {countryById.maps}<br /> */}
                 </h4>
               </div>
               <div style={{ flex: 1 }}>
                 <h4 className={styles.textH4}>
-                  Activities: 
-                  {countryById.Activities?.map((e) => { return <li> {e} </li> })}
+
+                  Activities:  
+                  {countryById?.Activities?.map((e) => { return <span>  <PopUpActivity name={e}/> </span> })}
                 </h4>
               </div>
            </div>

@@ -141,10 +141,10 @@ export function filterCards (status){
     }
 };
 
-export function orderCards (id){ 
+export function orderCards (status){ 
     return {
         type: ORDER_CARDS,
-        payload: id
+        payload: status
     }
 };
 
