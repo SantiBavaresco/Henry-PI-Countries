@@ -8,6 +8,7 @@ import {
   FILTER_CARDS, 
   ORDER_CARDS,
   API_ERROR,
+  SAVE_PERPAGE,
 } from "./type";
 
 const initialState = {
@@ -18,6 +19,8 @@ const initialState = {
   countryById: [],
   countryByString: [],
   filteredCountries:[],
+  filterByContinent:"All",
+  pagerCurrentPage: 1,
   error: null,
 }
 
@@ -72,21 +75,20 @@ function sortAsc(aux){
           const created1 = [...state.allActivities, action.payload];
           return { ...state, allActivities: [...created1] };
 //-------------------------------------------------------------------------    
-// -------------------- MODIFICAR ESTE FILTER !!!!! esta por continente ?? 
       case FILTER_CARDS: 
         const filteredCountries = [...state.allCountries];
         state.countriesFound = [...state.allCountries]
-        console.log("soy el payload de filter",(action.payload));
+        // console.log("soy el payload de filter",(action.payload));
 
         if(action.payload !== "All"){
-          console.log("Estoy deltro del if !==All ");
+          // console.log("Estoy deltro del if !==All ");
           const filtradoContinent = state.countriesFound.filter(
           fav => fav.continent === action.payload
           );
           console.log("SOY LOS COUNTRI FILTRADOS",(filtradoContinent));
           return{
             ...state,
-            countriesFound: filtradoContinent,
+            countriesFound: filtradoContinent, filterByContinent:action.payload 
           }
         }
         else{
@@ -108,6 +110,9 @@ function sortAsc(aux){
           return{ ...state, allCountries: all, countriesFound: found }
         
       }
+//-------------------------------------------------------------------------         
+      case SAVE_PERPAGE:
+        return { ...state, pagerCurrentPage: action.payload };
 //-------------------------------------------------------------------------         
       case API_ERROR:
         return { ...state, error: action.payload };

@@ -6,17 +6,17 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link, Outlet } from "react-router-dom";  
 import Country from "../Country/Country";
 import Pager from "../Pager/Pager";
-import { getAllCountries, getCountryDetailByID, getCountryDetailByString, getActivities, orderCards, filterCards}
+import { getAllCountries, getCountryDetailByID, getCountryDetailByString, getActivities, orderCards, filterCards, saveCurrentePage}
    from "../../redux/actions";
 
 
 function Countries(props) {
-  const { allCountries, countryByString, allActivities, countriesFound } = props;
+  const { allCountries, countryByString, allActivities, countriesFound, filterByContinent, pagerCurrentPage } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [Order, setOrder] = useState("az")
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(pagerCurrentPage);
   const [countriesPerPage, setcountriesPerPage] = useState(24);
   const indexLastCountry = currentPage * countriesPerPage;
   const indexFirstCountry = indexLastCountry - countriesPerPage;
@@ -28,8 +28,13 @@ function Countries(props) {
   //console.log("TODA LAS ACTIVIDADES", (allActivities[3].id))
 
   useEffect(() => {
-    dispatch (getAllCountries());
-    dispatch (getCountryDetailByString(""))
+    if(countriesFound.length===0 || allCountries.length===0) dispatch (getAllCountries());
+    if(countryByString.length===0) dispatch (getCountryDetailByString(""))
+    console.log("SOY EL USEFFECT : " , filterByContinent);
+    console.log("los paises: ", countriesToShow);
+
+    dispatch (filterCards(filterByContinent))
+
     //console.log(dispatch (getCountryDetailByString("islan")))
   }, []);
 
@@ -69,10 +74,12 @@ function Countries(props) {
 
   const paginated = (pageNumber) => {
     setCurrentPage(pageNumber);
+    dispatch (saveCurrentePage(pageNumber))
   };
 
   const handleChangePerPage = async (event) => {
     setcountriesPerPage(event.target.value);
+
     // await dispatch(orderCards(Order) )
   };
 
@@ -86,6 +93,9 @@ function Countries(props) {
   async function  handleChangeFilter(evento){
       // cuando ocurra un cambio en el valuue del input,
       // tomar ese value y guardarlo en el estado del userInput
+      console.log("---------------:", evento.target.value);
+      console.log("ESTE ES EL FILTRO DEL ESTADO :",filterByContinent)
+
       await dispatch(filterCards(evento.target.value))
      // setUserInput(evento.target.value);
   }  
@@ -107,6 +117,7 @@ function Countries(props) {
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Continent</h1>
         <select id="continent" style={{marginLeft: "10px"}} 
+                  value={filterByContinent}
                   onChange={handleChangeFilter}
                   >
           <option value="All">All</option>
@@ -116,7 +127,7 @@ function Countries(props) {
           <option value="Asia">Asia</option>
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
-          <option value="Unknown">Unknown</option>
+          {/* <option value="Unknown">Unknown</option> */}
         </select>
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>C/Page</h1>
@@ -189,6 +200,8 @@ export function mapStateToProps(state) {
     allActivities: state.allActivities,
     countryByString: state.countryByString,
     countriesFound: state.countriesFound,
+    filterByContinent: state.filterByContinent,
+    pagerCurrentPage: state.pagerCurrentPage
   };
 }
 
@@ -197,6 +210,7 @@ export function mapDispatchToProps(dispatch) {
     getAllCountries: () => dispatch ( getAllCountries() ),
     getActivities: () => dispatch ( getActivities() ),
     getCountryDetailByString: () => dispatch ( getCountryDetailByString() ),
+    saveCurrentePage: () => dispatch ( saveCurrentePage() ),
 
   };
 }

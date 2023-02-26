@@ -7,6 +7,7 @@ import {
   CREATE_ADVANCED_ACTIVITY,
   FILTER_CARDS,
   ORDER_CARDS,
+  SAVE_PERPAGE,
   API_ERROR,
 } from "./type";
 //const axios = require('axios');
@@ -143,6 +144,13 @@ export function filterCards (status){
 export function orderCards (id){ 
     return {
         type: ORDER_CARDS,
+        payload: id
+    }
+};
+
+export function saveCurrentePage (id){ 
+    return {
+        type: SAVE_PERPAGE,
         payload: id
     }
 };
