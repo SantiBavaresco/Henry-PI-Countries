@@ -13,7 +13,7 @@ import Popup from "./PopUp";
 function PopUpActivity(props) {
     const { name } = props
     const { allActivities } = props;
-    const activityFound = allActivities.filter((element)=> {return element.name===name})
+    const activityFound = allActivities.filter((element)=> {return element?.name===name})
     const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ function PopUpActivity(props) {
     useEffect(() => {
         dispatch (getActivities())
         
-        console.log("ACTIVIDADES:", activityFound[0].name )
+        console.log("ACTIVIDADES:", activityFound[0]?.name )
         //console.log(dispatch (getCountryDetailByString("islan")))
       }, [isOpen]);
     

@@ -105,7 +105,7 @@ export function CountryDetail(props) {
                 <h4 className={styles.textH4}>
 
                   Activities:  
-                  {/* {countryById?.Activities?.map((e) => { return <span>  <PopUpActivity name={e}/> </span> })} */}
+                  {countryById?.Activities?.map((e) => { return <span>  <PopUpActivity name={e}/> </span> })}
                 </h4>
               </div>
            </div>
