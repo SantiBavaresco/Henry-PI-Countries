@@ -8,6 +8,7 @@ import {
   FILTER_CARDS, 
   ORDER_CARDS,
   API_ERROR,
+  CLEAR_STATE,
   SAVE_PERPAGE,
 } from "./type";
 
@@ -16,7 +17,7 @@ const initialState = {
   allCountries: [],
   countriesFound: [],
   allActivities: [],
-  countryById: [],
+  countryById: {},
   countryByString: [],
   filteredCountries:[],
   filterByContinent:"All",
@@ -169,7 +170,12 @@ function sortPopAsc(aux){
 //-------------------------------------------------------------------------         
       case API_ERROR:
         return { ...state, error: action.payload };
-//-------------------------------------------------------------------------         
+//-------------------------------------------------------------------------   
+      case CLEAR_STATE:
+        // const created1 = [...state.allActivities, action.payload];
+        const auxiliar = action.payload // countryById       -------------------> preguntar a rosi si se puede hacer
+        return { ...state, countryById: [] };
+//-------------------------------------------------------------------------   
       default:
         return state;
     }

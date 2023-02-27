@@ -16,7 +16,7 @@ import React from "react";
 import Linker from './Linker';
 import PopUpActivity from "../PopUpActivity/PopUpActivity"
    
-import { getCountryDetailByID } from "../../redux/actions";
+import { getCountryDetailByID, clearState } from "../../redux/actions";
 
 // function getmapita(map){
 //   const mapita = `https://onesimpleapi.com/api/screenshot?token=WWYzLLqSIuGs06AOA5iKxp7JswvejfSaCiCKRb4v&output=redirect
@@ -29,7 +29,8 @@ import { getCountryDetailByID } from "../../redux/actions";
 export function CountryDetail(props) {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { countryById } = props;
+  let { countryById } = props;
+  const [loading, setLoading] = useState(true)
 
 
 
@@ -47,11 +48,19 @@ export function CountryDetail(props) {
   // const algo = ""
   // let hex = "  😀".codePointAt(0).toString(16)
   // let emo = String.fromCodePoint("0x"+hex);
-
   useEffect(() => {
     dispatch ( getCountryDetailByID(id) );
-
+    // let wait = countryById?.capital && countryById
   }, []);
+
+  useEffect(() => {
+    // dispatch ( getCountryDetailByID(id) );
+    // let wait = countryById?.capital && countryById
+    if(countryById?.length !== 0){ setLoading(false)
+    }
+  }, [countryById]);
+
+  
 
   function handleReturn() {
     window.history.back()
@@ -63,7 +72,9 @@ export function CountryDetail(props) {
       {/* <div style={{display:"flex", justifyContent: "space-evenly"}}>
         <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
       </div> */}
-
+    { loading ? <h3 style={{ backgroundColor : "red"}}>Loading</h3> :  
+    
+      
       <div className={styles.country_countainer}>
         
         <div style={{maxWidth:"45vw"}} >
@@ -76,6 +87,7 @@ export function CountryDetail(props) {
           {detail.diets ? <h3>{detail.diets.join(", ")}</h3> : <h3></h3>} */}
           </div>
           <div>
+
             <div style={{ display: "flex" }}>
               <div style={{ flex: 1 }}>
                 <h4 className={styles.textH4}>
@@ -88,14 +100,16 @@ export function CountryDetail(props) {
                   {/* Map: {countryById.maps}<br /> */}
                 </h4>
               </div>
+
               <div style={{ flex: 1 }}>
                 <h4 className={styles.textH4}>
 
                   Activities:  
-                  {countryById?.Activities?.map((e) => { return <span>  <PopUpActivity name={e}/> </span> })}
+                  {/* {countryById?.Activities?.map((e) => { return <span>  <PopUpActivity name={e}/> </span> })} */}
                 </h4>
               </div>
            </div>
+
           </div>
         </div>
 
@@ -114,11 +128,13 @@ export function CountryDetail(props) {
         {/* <ActivityCreator/> */}
 
       </div>
+    }
 
       <div style={{display:"flex", justifyContent: "space-evenly"}}>
         <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
       </div>
-
+      
+      
     </div>
   );
 }
@@ -131,6 +147,7 @@ export function mapStateToProps(state) {
 export function mapDispatchToProps(dispatch) {
   return {
     getCountryDetailByID: (ID) => dispatch ( getCountryDetailByID(ID) ),
+    clearState: () => dispatch( clearState() )
   };
 }
 

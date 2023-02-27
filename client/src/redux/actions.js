@@ -8,6 +8,7 @@ import {
   FILTER_CARDS,
   ORDER_CARDS,
   SAVE_PERPAGE,
+  CLEAR_STATE,
   API_ERROR,
 } from "./type";
 //const axios = require('axios');
@@ -151,6 +152,13 @@ export function orderCards (status){
 export function saveCurrentePage (id){ 
     return {
         type: SAVE_PERPAGE,
+        payload: id
+    }
+};
+
+export function clearState (id){ 
+    return {
+        type: CLEAR_STATE,
         payload: id
     }
 };
