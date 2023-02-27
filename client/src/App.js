@@ -21,7 +21,7 @@ import CountryDetail from "./components/CountryDetail/CountryDetail";
 function App() {
   return (
     <div className="App">
-      <h3>Henry Countries</h3>
+      {/* <h3>Henry Countries</h3> */}
       {/* 
         <MainParallax></MainParallax>*/}
       {/* <Paralax></Paralax>  */}

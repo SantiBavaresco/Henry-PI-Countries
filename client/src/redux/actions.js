@@ -13,7 +13,7 @@ import {
 } from "./type";
 //const axios = require('axios');
 
-function apiError(error){
+export function apiError(error){
     return {
         type: API_ERROR,
         payload: error,
@@ -130,6 +130,7 @@ export function createActivity(activity) {
         })
         .catch(error => {
             dispatch(apiError(error.message))
+
         })
         
     };
@@ -162,4 +163,5 @@ export function clearState (id){
         payload: id
     }
 };
+
 

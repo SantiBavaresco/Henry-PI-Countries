@@ -2,12 +2,14 @@
   text-align: center;
   /* width: 100%;
   height: 60%; */
-  background: url("./img/fondo7.png");
-  /* background-size: auto; */
+
+  /* background: url("./img/fondo0.png");
   background-size: 100vh;
   background-size: cover;
-  background-position:inherit;
-  background-attachment:fixed;
+  background-position:inherit; 
+  background-attachment:fixed; */
+  /* background-size: auto; */
+
   /* background-position: center; */
 
 }

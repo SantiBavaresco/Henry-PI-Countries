@@ -38,8 +38,9 @@ function Home() {
 
     return (
       <div className="Home" >
+        
         {/* <h1>Bienvenidos</h1> */}
-        <Paralax></Paralax>
+        {/* <Paralax></Paralax> */}
         <h1>HOLA QUE TAL</h1> 
         <h1>HOLA QUE TAL</h1> 
         <h1>HOLA QUE TAL</h1> 

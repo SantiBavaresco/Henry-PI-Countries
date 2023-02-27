@@ -148,7 +148,7 @@ function ActivityCreator(props) {
 
 
   return (
-    
+  <div>
     <table>
       <thead>
         <tr>
@@ -157,23 +157,18 @@ function ActivityCreator(props) {
           <th>Select countries</th>
         </tr>
       </thead>
-
       <tbody>
         <tr>
-
           <td>
           {/* <ChildComponent onArrayUpdate={(newArray) => setMyArray(newArray)} /> */}
             <InputActivityCreator array={inputArray} updateArrayItem={updateArrayItem}  />
-
-            <div style={{ display: "flex" }}>
-
-                <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
+                <div >
                   <div className={styles.row}>
                     <button type="submit" onClick={handleSubmit} disabled={false} >Create Activity</button>
                   </div>
                 </div>
-
-                <div style={{ flex: 1 }}>
+                <div >
                   <div className={styles.row}>
                     <label>
                         <input type="checkbox" value="Random" checked={random.includes("Random")} 
@@ -183,15 +178,8 @@ function ActivityCreator(props) {
                     </label>
                   </div>
                 </div>
-
             </div>
-            
-            <div style={{display:"flex", justifyContent: "space-evenly"}}>
-              <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
-            </div>
-            
           </td>
-
           <td >
             <DualColumnScrollBarLabel array={dualColumnArray} 
                 updateArrayCountries={updateArrayCountries}  
@@ -199,11 +187,13 @@ function ActivityCreator(props) {
                 disabled={randomIsChecked}
             />
           </td>
-
         </tr>
       </tbody>
     </table>
-
+    <div style={{display:"flex", justifyContent: "space-evenly"}}>
+              <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+            </div>
+  </div>
 )}
 
 // export default ActivityCreator;

@@ -109,8 +109,8 @@ const handleSubmit = (event) => {
   }
 
   return (
-    
-    <table>
+  <div>
+    <table >
       <thead>
         <tr>
           {/* <th>Select an option</th> */}
@@ -144,9 +144,7 @@ const handleSubmit = (event) => {
                 </label>
               </div>
             ))}
-            <div style={{display:"flex", justifyContent: "space-evenly"}}>
-             <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
-            </div>
+            
 
           </td>
           <td>
@@ -175,7 +173,10 @@ const handleSubmit = (event) => {
         </tr>
       </tbody>
     </table>
-
+    <div style={{display:"flex", justifyContent: "space-evenly"}}>
+      <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+    </div>
+  </div>
 
     // <div>
     //   <header>

@@ -1,9 +1,10 @@
 table {
     border-collapse: collapse;
-    width: 100%;
-    max-width: 90vw;
+    /* width: 70%; */
+    max-width: 70vw;
     margin: 0 auto;
     font-size: 1.2rem;
+    margin-top: 65px;
     
   }
   

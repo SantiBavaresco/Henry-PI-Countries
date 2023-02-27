@@ -5,8 +5,12 @@ import { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link, Outlet } from "react-router-dom";  
 import Country from "../Country/Country";
+import NavBar from "../NavBar/NavBar"
 import Pager from "../Pager/Pager";
-import { getAllCountries, getCountryDetailByID, getCountryDetailByString, getActivities, orderCards, filterCards, saveCurrentePage}
+import Loading from "../Loading/Loading";
+import Error404 from "../Error404/Error404";
+
+import { getAllCountries, apiError, getCountryDetailByID, getCountryDetailByString, getActivities, orderCards, filterCards, saveCurrentePage}
    from "../../redux/actions";
 
 
@@ -14,6 +18,7 @@ function Countries(props) {
   const { allCountries, countryByString, allActivities, countriesFound, filterByContinent, pagerCurrentPage, orderState } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true)
   const [Order, setOrder] = useState(orderState)
 
   const [currentPage, setCurrentPage] = useState(pagerCurrentPage);
@@ -32,19 +37,32 @@ function Countries(props) {
     if(countryByString.length===0) dispatch (getCountryDetailByString(""))
     console.log("SOY EL USEFFECT : " , filterByContinent);
     console.log("los paises: ", countriesToShow);
+    console.log("keys de error: ",error)
+
 
     dispatch (filterCards(filterByContinent))
 
     //console.log(dispatch (getCountryDetailByString("islan")))
   }, []);
+  useEffect(() => {
+    // dispatch ( getCountryDetailByID(id) );
+    // let wait = countryById?.capital && countryById
+    if(allCountries?.length !== 0){ setLoading(false)
+    }
+    // dispatch(apiError(null));        CHEQUEAR ESTA PARTE; LOADING ---> ERROR, pero no resetea el error del estado
+  }, [allCountries]);
 
   if (error) {
-    console.log("keys de error: ",Object.keys(error))
+    console.log("keys de error: ",error)
+    let msg = ""
+    if(error) msg = error
+
     return (
-    <div> PAIS NO ENCONTRADO !
-      <Link to={"/countries"}>
+    <div> 
+      <Error404 error={msg}/>
+      {/* <Link to={"/countries"}>
         <button> Volver </button>
-      </Link>
+      </Link> */}
       {/* <Outlet/> */}
     </div>)
   }
@@ -69,7 +87,7 @@ function Countries(props) {
   //     dispatch(orderCards(value) )
   //    // setUserInput(evento.target.value);
   //  }
-   
+  
 
 
   const paginated = (pageNumber) => {
@@ -110,8 +128,11 @@ function Countries(props) {
   // "Unknown"
 
   return (
-    <div style={{ minHeight: "85vh"}}>
+    <div className={styles.countries} style={{  marginTop: "65px" }}>
       
+    <NavBar/>
+    { loading ? <Loading /> : 
+      <div >  
       <div className={styles.filters}>
         <h1 style={{ fontSize: "16px"}}>Order</h1>
         <select id="order" style={{marginLeft: "10px"}}
@@ -197,9 +218,13 @@ function Countries(props) {
           // }
           // )
           
-          <p>No hay nada</p>
+          <div> 
+            <Loading/>
+          </div>
         )}
       </div>
+      </div>
+      }
     </div>
   );
 }

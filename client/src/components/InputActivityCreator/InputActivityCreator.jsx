@@ -74,6 +74,7 @@ const InputActivityCreator = (props) => {
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* <h2>Create New Activity</h2> */}
+        <div>
         <div className={styles.row}>
             <label htmlFor="name">Name:</label>
             <input type="text" id="name" value={name} onChange={handleNameChange} disabled={areInputsDisabled}/>
@@ -105,30 +106,20 @@ const InputActivityCreator = (props) => {
             
         </div>
         <div className={styles.row} onChange={handleSeasonChange} >
-             <input type="radio" id="Winter" name="season" value="Winter" disabled={areInputsDisabled}/>
+            <input type="radio" id="Winter" name="season" value="Winter" disabled={areInputsDisabled}/>
             <label for="Winter" style={{width: "70px"}}>Winter</label>
 
             <input type="radio" id="Spring" name="season" value="Spring" disabled={areInputsDisabled}/>
             <label for="Spring" style={{width: "50px"}}>Spring</label>
 
-            {/* <input type="submit" onChange={handleSeasonChange} value="Submit" /> */}
         </div>
-
-            <div >
-              <button disabled={isButtonDisabled} type="submit"  onClick={Response}>
-                {formSuccess ? <span>&#x2705; </span>: null}
-                Submit</button>
-            </div>
-        {/* <div className={styles.row}>
-            <label htmlFor="arrayCountries">Array Countries:</label>
-            <input type="arrayCountries" id="arrayCountries" value={arrayCountries} onChange={handleArrayCountriesChange} />
-        </div> */}
-        
-        
+        </div>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly", flexWrap: "nowrap" }}>
+            <button disabled={isButtonDisabled} type="submit"  onClick={Response}>
+              {formSuccess ? <span>&#x2705; </span>: null}
+              Submit</button>
+          </div>
       </form>
-      {/* <div className={styles.minimap}>
-        Code to display and interact with the map
-      </div> */}
     </div>
   );
 };
