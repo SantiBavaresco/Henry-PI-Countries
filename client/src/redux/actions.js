@@ -67,7 +67,7 @@ export function getCountryDetailByString(string){
             })
             .catch(error => {
                 console.error('Error:', error);
-                dispatch(apiError(error.message))
+                dispatch(apiError("Country doesn't found"))
             })
     }
 };

@@ -5,13 +5,13 @@
   overflow-Y: scroll;
 }
 
-.scrollable_container {
-    display: flex;
-    overflow-y: clip;
-    white-space: nowrap;
-    height: 100vh;
+/* .scrollable_container {
+    /* display: flex; */
+    /* overflow-y: clip; */
+    /* white-space: nowrap; */
+    /* height: 100vh; */
  
-  }
+  /* } */ 
   
 ul{
     margin-block-start: 0%;
@@ -26,7 +26,7 @@ ul{
     display: inline-block;
     vertical-align: top;
     padding-right: 20px;
-    height: 100vh;
+    height: 78vh;
     width: 47%;
   
   }

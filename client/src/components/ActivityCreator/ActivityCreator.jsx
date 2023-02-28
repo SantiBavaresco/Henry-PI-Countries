@@ -148,8 +148,8 @@ function ActivityCreator(props) {
 
 
   return (
-  <div>
-    <table>
+  <div className={styles.tableBG}>
+    <table className={styles.tableCreate}>
       <thead>
         <tr>
           {/* <th>Select an option</th> */}

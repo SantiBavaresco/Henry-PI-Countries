@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState , useEffect } from 'react';
-import styles from "./AdvancedActivityCreator.model.css"
+import styles from "./AdvancedActivityCreator.module.css"
 import { connect, useDispatch, useSelector } from "react-redux";
 import { getAllCountries, getActivities, createActivity} from "../../redux/actions";
 import DualColumnScrollBarLabel from './DualColumnScrollBarLabel';
@@ -109,8 +109,8 @@ const handleSubmit = (event) => {
   }
 
   return (
-  <div>
-    <table >
+  <div className={styles.tableBG}>
+    <table className={styles.tableAdvanced}>
       <thead>
         <tr>
           {/* <th>Select an option</th> */}
@@ -131,8 +131,8 @@ const handleSubmit = (event) => {
           </td> */}
           <td>
             {activityOptions.map((activity, index) => (
-              <div key={index} style={{ display: "flex" }}>
-                <label style={{width: "27vw"}}>
+              <div key={index}  >
+                <label style={{width: "20vw"}}>
                   <input
                     type="checkbox"
                     value={activity}
@@ -178,44 +178,6 @@ const handleSubmit = (event) => {
     </div>
   </div>
 
-    // <div>
-    //   <header>
-    //     <h1>Table Header</h1>
-    //   </header>
-    //   <div className="container">
-    //     <aside>
-    //       <h2>Table Aside</h2>
-    //     </aside>
-    //     <main>
-    //       <table>
-    //         <thead>
-    //           <tr>
-    //             <th>Column 1</th>
-    //             <th>Column 2</th>
-    //             <th>Column 3</th>
-    //           </tr>
-    //         </thead>
-    //         <tbody>
-    //           <tr>
-    //             <td>Row 1, Column 1</td>
-    //             <td>Row 1, Column 2</td>
-    //             <td>Row 1, Column 3</td>
-    //           </tr>
-    //           <tr>
-    //             <td>Row 2, Column 1</td>
-    //             <td>Row 2, Column 2</td>
-    //             <td>Row 2, Column 3</td>
-    //           </tr>
-    //           <tr>
-    //             <td>Row 3, Column 1</td>
-    //             <td>Row 3, Column 2</td>
-    //             <td>Row 3, Column 3</td>
-    //           </tr>
-    //         </tbody>
-    //       </table>
-    //     </main>
-    //   </div>
-    // </div>
 )}
 
 // export default AdvancedActivityCreator;
