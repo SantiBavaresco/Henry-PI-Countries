@@ -10,6 +10,7 @@ import {
   SAVE_PERPAGE,
   CLEAR_STATE,
   API_ERROR,
+  FILTER_CARDS_BY_ACTIVITY,
 } from "./type";
 //const axios = require('axios');
 
@@ -139,6 +140,12 @@ export function createActivity(activity) {
 export function filterCards (status){ 
     return {
         type: FILTER_CARDS,
+        payload: status
+    }
+};
+export function filterCardsByActivity (status){ 
+    return {
+        type: FILTER_CARDS_BY_ACTIVITY,
         payload: status
     }
 };

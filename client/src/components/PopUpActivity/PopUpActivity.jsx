@@ -36,7 +36,7 @@ return(
         type="button"
         value={name}
         onClick={togglePopup}
-      />
+      /> 
       {/* <p>hola</p> */}
 
       {isOpen && 

@@ -47,7 +47,9 @@ router.post("/BringCountriesFromApi", async (req, res)=>{
 // Ruta que trae todos los Countries de la DB
 router.get("/", async (req , res)=>{
     // http://localhost:3001/api/countries/
-    const allCountries = await Country.findAll()
+    // const allCountries = await Country.findAll()
+    const allCountries = await countryByString("")
+
     try {
         if(allCountries.length ===0){
             res.status(404).send("No Countries")

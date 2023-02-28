@@ -42,9 +42,9 @@ export default function Error404(props){
             <Link to={"/"}>
                 <button style={{height:"40px", width:"160px", margin: "10px"}}>Back to Home</button>
             </Link>
-            <Link to={"/countries"}>
+            <a href="/countries">
                 <button style={{height:"40px", width:"160px", margin: "10px"}}>Back to countries</button>
-            </Link>
+            </a>
             <button onClick={handleReturn} style={{height:"40px", margin: "10px"}}>Back</button>
         </div>
     </div>

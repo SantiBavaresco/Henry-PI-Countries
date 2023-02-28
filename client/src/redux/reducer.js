@@ -6,6 +6,7 @@ import {
   CREATE_ACTIVITY,
   CREATE_ADVANCED_ACTIVITY,
   FILTER_CARDS, 
+  FILTER_CARDS_BY_ACTIVITY,
   ORDER_CARDS,
   API_ERROR,
   CLEAR_STATE,
@@ -21,6 +22,7 @@ const initialState = {
   countryByString: [],
   filteredCountries:[],
   filterByContinent:"All",
+  filterByActivity: "All",
   orderState:"az",
   pagerCurrentPage: 1,
   error: null,
@@ -98,17 +100,54 @@ function sortPopAsc(aux){
         if(action.payload !== "All"){
           // console.log("Estoy deltro del if !==All ");
           const filtradoContinent = state.countriesFound.filter(
-          fav => fav.continent === action.payload
-          );
+          fav => {
+            if(
+              (fav.continent === action.payload ) && 
+              ( ( fav.Activities?.includes( state.filterByActivity ))  || (state.filterByActivity === "All")) 
+            )return fav;
+          })
+          // const filtradoActivity = state.countriesFound.filter(
+          //   fav => fav.continent === action.payload );
           console.log("SOY LOS COUNTRI FILTRADOS",(filtradoContinent));
           return{
             ...state,
-            countriesFound: filtradoContinent, filterByContinent:action.payload 
+            countriesFound: filtradoContinent, filterByContinent:action.payload,
+            // countriesFound: filtradoActivity,  filterByActivity: action.payload, 
           }
         }
         else{
           console.log("ESTOY EN EL ELSE");
-          return{ ...state, countriesFound: filteredCountries}
+          return{ ...state, countriesFound: filteredCountries }
+          // return{...state, myFavorites: state.allCharacters}
+        }
+//-------------------------------------------------------------------------         
+        case FILTER_CARDS_BY_ACTIVITY: 
+        const filteredCountries1 = [...state.allCountries];
+        state.countriesFound = [...state.allCountries]
+        // console.log("soy el payload de filter",(action.payload));
+        // console.log("TODOS LOS COUNTRIES FILTER BY ACTI: ", filteredCountries1)
+        if(action.payload !== "All"){
+          // console.log("Estoy deltro del if !==All ");
+          // const filtradoContinent = state.countriesFound.filter(
+          // fav => fav.continent === action.payload );
+          let aux2 = {}
+          const filtradoActivity1 = state.countriesFound.filter(
+            fav => { 
+              if(( fav.Activities?.includes( action.payload ) ) && (fav.continent === state.filterByContinent ) ) return fav
+            } 
+          );
+
+          console.log("SOY LOS COUNTRI FILTRADOS by acti",(filtradoActivity1));
+
+          return{
+            ...state,
+            // countriesFound: filtradoContinent, filterByContinent:action.payload,
+            countriesFound: filtradoActivity1,  filterByActivity: action.payload, 
+          }
+        }
+        else{
+          console.log("ESTOY EN EL ELSE by acti");
+          return{ ...state, countriesFound: filteredCountries1 }
           // return{...state, myFavorites: state.allCharacters}
         }
 //-------------------------------------------------------------------------         

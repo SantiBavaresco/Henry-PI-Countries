@@ -10,16 +10,20 @@ import Pager from "../Pager/Pager";
 import Loading from "../Loading/Loading";
 import Error404 from "../Error404/Error404";
 
-import { getAllCountries, apiError, getCountryDetailByID, getCountryDetailByString, getActivities, orderCards, filterCards, saveCurrentePage}
+import { getAllCountries, apiError, getCountryDetailByID, getCountryDetailByString, getActivities,
+   orderCards, filterCards,filterCardsByActivity, saveCurrentePage, }
    from "../../redux/actions";
 
 
 function Countries(props) {
-  const { allCountries, countryByString, allActivities, countriesFound, filterByContinent, pagerCurrentPage, orderState } = props;
+  const { allCountries, countryByString, allActivities, countriesFound,
+      filterByContinent, pagerCurrentPage, orderState, filterByActivity } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true)
   const [Order, setOrder] = useState(orderState)
+  const [activity, setActivity] = useState(filterByActivity)
+
 
   const [currentPage, setCurrentPage] = useState(pagerCurrentPage);
   const [countriesPerPage, setcountriesPerPage] = useState(18); // < --- Para el PI hay que setearlo en 10
@@ -35,15 +39,18 @@ function Countries(props) {
   useEffect(() => {
     if(countriesFound.length===0 || allCountries.length===0) dispatch (getAllCountries());
     if(countryByString.length===0) dispatch (getCountryDetailByString(""))
+    if(allActivities.length===0) dispatch (getActivities())
+
     console.log("SOY EL USEFFECT : " , filterByContinent);
     console.log("los paises: ", countriesToShow);
     console.log("keys de error: ",error)
-
+    dispatch (filterCardsByActivity(filterByActivity))
 
     dispatch (filterCards(filterByContinent))
 
-    //console.log(dispatch (getCountryDetailByString("islan")))
-  }, []);
+
+
+  }, [error]);
   useEffect(() => {
     // dispatch ( getCountryDetailByID(id) );
     // let wait = countryById?.capital && countryById
@@ -121,7 +128,18 @@ function Countries(props) {
 
       await dispatch(filterCards(evento.target.value))
      // setUserInput(evento.target.value);
-  }  
+  } 
+  async function  handleChangeFilterActivity(event){
+    // cuando ocurra un cambio en el valuue del input,
+    // tomar ese value y guardarlo en el estado del userInput
+    const value = event.target.value;
+    setActivity(value)
+    console.log("---------------++++:", value);
+    console.log("ESTE ES EL FILTRO DEL ESTADO Activity:",filterByContinent)
+    
+    await dispatch(filterCardsByActivity(event.target.value))
+   // setUserInput(evento.target.value);
+} 
   // "Antarctic", "Africa", "Asia", 
   // "Europe", "North America", "Oceania", 
   // "South America", "Americas",
@@ -135,7 +153,7 @@ function Countries(props) {
       <div >  
       <div className={styles.filters}>
         <h1 style={{ fontSize: "16px"}}>Order</h1>
-        <select id="order" style={{marginLeft: "10px"}}
+        <select id="order" 
               onChange={handleChangeOrder} value={Order}>
           <option value="az" >A - Z</option>
           <option value="za">Z - A</option>
@@ -145,7 +163,7 @@ function Countries(props) {
         </select>
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Continent</h1>
-        <select id="continent" style={{marginLeft: "10px"}} 
+        <select id="continent" style={{width:"150px"}} 
                   value={filterByContinent}
                   onChange={handleChangeFilter}
                   >
@@ -156,6 +174,25 @@ function Countries(props) {
           <option value="Asia">Asia</option>
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
+          {/* <option value="Unknown">Unknown</option> */}
+        </select>
+
+        <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Activity</h1>
+        <select id="activity" style={{width:"250px"}} 
+                  value={activity}
+                  onChange={handleChangeFilterActivity}
+                  >
+          <option value="All">All</option>
+          {allActivities?.map( (element) => {
+            return (<option value={element?.name}>{element?.name}</option>)
+          })}
+          {/* <option value="All">All</option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">Americas</option>
+          <option value="Antarctic">Antarctic</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option> */}
           {/* <option value="Unknown">Unknown</option> */}
         </select>
 
@@ -172,7 +209,7 @@ function Countries(props) {
           <option value="72">72</option>
         </select>
 
-       
+      
       </div>
       <Pager
             countriesPerPage={countriesPerPage}
@@ -236,6 +273,7 @@ export function mapStateToProps(state) {
     countryByString: state.countryByString,
     countriesFound: state.countriesFound,
     filterByContinent: state.filterByContinent,
+    filterByActivity: state.filterByActivity,
     pagerCurrentPage: state.pagerCurrentPage,
     orderState : state.orderState,
   };
