@@ -2,17 +2,30 @@ const { Activity } = require("../db");
 const { randomCountriesArray } = require("../controllers/GenerateRandomArray")
 
 
-// Funcion que crea en la DB una Activity
-async function createActivity ( {name, difficulty, duration, season} )
-{
+async function createActivity ( {name, difficulty, duration, season} ){
+/*  Function that creates in the DB one activity.
+    Args:   name ( string ) 
+            difficulty ( int )
+            duration ( int )
+            season ( string )
+    Returns: returns an object of the new activity created.
+*/ 
     const newActivity = await Activity.create(
         {name, difficulty, duration, season});
     return newActivity;
 };
 
-// funcion que crea la actividad, y completa la tabla intermedia entre Country-Activity, dependiendo de la cantidad de paises que se le pasaron por arrayCountries.
-async function createCountryActivity ({name, difficulty, duration, season, arrayCountries})
-{
+
+async function createCountryActivity ({name, difficulty, duration, season, arrayCountries}){
+/*  Function that creates the activity, and fills the intermediate table between Country-Activity,
+        depending on the number of countries passed to it by arrayCountries.
+    Args:   name ( string ) 
+            difficulty ( int )
+            duration ( int )
+            season ( string )
+            arrayCountries ( array(string[3]) )
+    Returns: returns an object of the new activity created.
+*/ 
     if(arrayCountries[0]==="Random") {
         arrayCountries = await randomCountriesArray();
     }
@@ -28,12 +41,15 @@ async function createCountryActivity ({name, difficulty, duration, season, array
     return newActivity;
 };
 
-// funcion que crea 20 actividades basicas en la DB con paises aleatorios
+
 async function createStandarActivities (){
+/*  Function that creates 20 basic activities in the DB with random countries.
+    Returns: returns error message if the activities already exist.
+*/ 
     const activities = [
-        "Turismo de Sol y Playa","Parques Acuaticos","4x4 OffRoad","Centros Culturales Historicos","Senderismo","Ciclismo de Montaña",
-        "Ski","Snowboard","Escalada deportiva","Escalada Clasica","Turismo Hipico","Turismo de Golf","Camping Indoor","Camping Outdoor",
-        "Turismo Mitologico","Turismo de Aventura","Pesca en rios","Pescar Embarcado","Turismo de Glaciares","Parapente"
+        "Sun and Beach Tourism","Water Parks","4x4 OffRoad","Historical Cultural Centers","Hiking","Mountain Biking",
+        "Ski","Snowboard","Sport Climbing","Classic Climbing","Equestrian Tourism","Golf Tourism","Camping Indoor","Camping Outdoor",
+        "Mythological Tourism","Adventure Tourism","Fishing in rivers","Fishing from Boat","Glacier Tourism","Paragliding"
         ]
     const season = ["Summer","Summer","All year","All year","Spring","Spring","Winter","Winter","All year",
         "Autumn","Autumn","Spring","Summer","All year","Autumn","Winter","Spring","Summer","Autumn","Spring"
@@ -43,7 +59,7 @@ async function createStandarActivities (){
 
     const aux = await Activity.findAll()
     if(aux.length!==0)  
-        throw new Error("La base de datos ya fue cargada, imposible cargarla nuevamente (ID repetidos)"); 
+        throw new Error("The DataBase was already loaded, impossible to load it again (repeated IDs)"); 
 
     for (let index = 0; index < activities.length; index++) {
 
@@ -53,8 +69,7 @@ async function createStandarActivities (){
             duration: duration[index],
             season: season[index],
             arrayCountries: ["Random"],
-    })
-        
+        })  
     }
 }
 

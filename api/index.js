@@ -19,11 +19,20 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { createStandarActivities } = require("./src/controllers/createActivity")
+const { countriesFromApi } = require("./src/controllers/createCountry")
+
 
 // Syncing all the models at once.
 conn.sync({ force: false }).then(() => {
-  server.listen(3001, () => {
+  server.listen(3001, async() => {
     // llamar la carga de datos
+    try {
+      await countriesFromApi();
+      await createStandarActivities()
+    } catch (error) {
+      
+    }
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });

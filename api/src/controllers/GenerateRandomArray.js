@@ -1,7 +1,10 @@
 const { Country } = require("../db");
 
-// funcion que extrae el ID de todos los paises de la BD y retorna un array con esos ID.
+
 async function extractIdFromCountriesDB(){
+/*  Function that extracts the ID of all the countries of the database and returns an array with those IDs.
+    Returns: returns array of countries id.
+*/ 
     let aux = [];
     const allCountries = await Country.findAll();
     allCountries.forEach(element => {
@@ -10,25 +13,31 @@ async function extractIdFromCountriesDB(){
     return aux;
 }
 
-// funcion que genera un array de numeros aleatorios no repetidos.
+
 function generateRandomNumber() {
+/*  Function that generates an array of non-repeating random numbers.
+    Returns: returns array of random numbers.
+*/ 
     let Numbers = [];
    // let number = Math.floor(Math.random() * 250) + 1;
     for(let i=0; i<150; i++){
         let number = Math.floor(Math.random() * 249) + 1;
         if (!Numbers.includes(number)) {
-          Numbers.push(number);
+            Numbers.push(number);
         } 
-      }
+    }
     return Numbers;
 }
 
-// funcion que genera un array de ID en funcion del array de numeros aleatorios, devolviendo un array de ID aleatorios no repetidos.
+
 async function randomCountriesArray(){
+/*  Function that generates an array of IDs based on the array of random numbers, returning an array of non-repeating random IDs.
+    Returns: returns array of countries.
+*/ 
     let generatedNumbers = generateRandomNumber();
     let countriesArrayId = await extractIdFromCountriesDB();
     let countriesArray = [];
-   
+
     generatedNumbers.forEach(element => {
         countriesArray.push(countriesArrayId[element]);
     });

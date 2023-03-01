@@ -1,24 +1,23 @@
 const { Country, Activity } = require("../db");
 
-// funcion que devuelve listo de los paises + actividades de manera limpia, en funcion del id otorgado por parametro.
-async function countryActivitiesByID (idPais) {
-    
-
+async function countryActivitiesByID (idCountry) {
+/*  Function that returns list of countries + activities in a clean way, based on the id given by parameter.
+    Args: idCountry ( string[3] ) 
+    Returns: objetc country + activities that match with the id.
+*/  
     let countryFound = await Country.findOne({
-        where: { ID: idPais,},
+        where: { ID: idCountry,},
         include: { 
             model: Activity,
             attributes: ["name"],
             through: { attributes: [] },
         },
     });
-    
-    //if(!countryFound) throw Error("LLEGUE HASTA  ACA");
 
     // ---- pasa de array de objetos a un array ----
     let ac = countryFound.Activities.map(function(obj) {
         return obj.dataValues.name;
-      });
+    });
     countryFound.dataValues.Activities=(ac);
     // ---------------------------------------------
 

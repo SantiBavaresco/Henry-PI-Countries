@@ -1,26 +1,44 @@
 const { Country } = require("../db");
 const axios = require('axios');
 
-// funcion que transforma un undefined en un string "-"
+
 function arrayToString(a){
+/*  Function that transforms an undefined into a string "-".
+    Returns: "-".  
+*/ 
     let aux = "";
     a ? aux = a[0] : aux = "-";
     return aux;
 }
 
-// funcion que crea un pais en la DB
-async function createCountry ( {ID, name, flag, capital, continent, subregion, area, population, timezone, maps} )
-{
+
+async function createCountry ( {ID, name, flag, capital, continent, subregion, area, population, timezone, maps} ){
+/*  Function that creates a country in the DB.
+    Args:   ID ( string[3] ) 
+            name ( string )
+            flag ( string )
+            capital ( string )
+            continent ( string )
+            subregion ( string )
+            area ( int )
+            population ( int )
+            timezone ( string )
+            maps ( string )
+    Returns: returns an object of the new country created.
+*/ 
     const newCountry = await Country.create(
         { ID, name, flag, capital, continent, subregion, area, population, timezone, maps });
     return newCountry;
 };
 
-// funcion que trae los datos de los paises de la API y los crea en la DB
+
 async function countriesFromApi () {
+/*  Function that brings the data of the countries from the API and creates them in the DB
+    Returns: returns error if the countries already exist, or if success.
+*/ 
     const aux = await Country.findAll()
     if(aux.length!==0)  
-        throw new Error("La base de datos ya fue cargada, imposible cargarla nuevamente (ID repetidos)");                
+        throw new Error("The database was already loaded, impossible to load it again (repeated IDs)");                
 
     const apiDB = await axios.get('https://restcountries.com/v3.1/all')
     try {
