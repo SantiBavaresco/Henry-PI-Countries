@@ -29,6 +29,10 @@ conn.sync({ force: false }).then(() => {
     // llamar la carga de datos
     try {
       await countriesFromApi();
+    } catch (error) {
+      
+    }
+    try {
       await createStandarActivities()
     } catch (error) {
       
