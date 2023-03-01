@@ -69,7 +69,7 @@ router.get("/", async (req , res)=>{
 })
 
 
-router.get("/id/:idPais", async (req , res)=>{
+router.get("/id/:idCountry", async (req , res)=>{
 /*  Route that returns a country with the id equal to the parameter.
     Returns: returns an array of the countries that match withe the id or msg of failure.
 */ 
