@@ -79,7 +79,7 @@ import Burger from "../Burger/Burger";
 
 
 import logo from "../../img/logo.png";
-import iProfile from "./icon-profile.png";
+import iProfile from "./icon-linkedin.png";
 import iSettings from "./icon-settings.png";
 import iWorld from "./icon-world.png";
 

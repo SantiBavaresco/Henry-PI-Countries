@@ -14,6 +14,7 @@ function PopUpActivity(props) {
     const { name } = props
     const { allActivities } = props;
     const activityFound = allActivities.filter((element)=> {return element?.name===name})
+
     const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = useState(false);

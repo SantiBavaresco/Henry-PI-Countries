@@ -33,6 +33,7 @@ export function CountryDetail(props) {
   const dispatch = useDispatch();
   let { countryById } = props;
   const [loading, setLoading] = useState(true)
+  const emojis = ["🌴", "🌊", "🚙", "🏰", "🚶", "🚵", "⛷", "🏂", "🤾", "🌄", "🏇", "🏌", "🎪", "⛺", "🗿", "🌲", "🐟","🐠", "🗻"];
 
 
 
@@ -67,9 +68,8 @@ export function CountryDetail(props) {
   function handleReturn() {
     window.history.back()
   }
-console.log("🎪 🗿 🏌 🤾 🐠 🐟 ⛺ 🏂 ⛷  🌲 🏇 ️⛳️ 🎣")
+// console.log("🎪 🗿 🏌 🤾 🐠 🐟 ⛺ 🏂 ⛷  🌲 🏇 ️⛳️ 🎣")
  const emoji = "🦍";
- const emoji1 = ["🌴", "ola", "🚙", "🏰", "🚶", "🚵", ];
 
 
   return (
@@ -98,28 +98,14 @@ console.log("🎪 🗿 🏌 🤾 🐠 🐟 ⛺ 🏂 ⛷  🌲 🏇 ️⛳️ �
                     </div>
                     {/* +++++++++++++++++++++ ACTIVITIES +++++++++++++++++++++ */}
                     <div style={{ flex: 1 }}>
-                      <h4> &#x1F334;
-&#x1F30A;
-&#x1F699;
-&#x1F3F0;
-&#x1F6B6;
-&#x1F6B5;
-&#x1F3BF;
-&#x1F3C2;
-&#x1F93E;
-&#x1F304;
-&#x1F3C7;
-&#x1F3CC;
-&#x1F3AA;
-&#x26FA;
-&#x1F5FF;
-&#x1F332;
-&#x1F41F;
-&#x1F420;
-&#x1F5FB;</h4>
+                      <h4> </h4>
                       <h4 className={styles.textH4}>
                         Activities:  
-                        {countryById?.Activities?.map((e) => { return <div style={{ display: "flex", marginLeft: "20px"}}> {emoji}  <PopUpActivity name={e}/> </div> })}
+                        {countryById?.Activities?.map((e, index) => { console.log(index);
+                            return <div style={{ display: "flex", marginLeft: "20px"}}>
+                              {/* {emojis[index]} */}
+                              <PopUpActivity name={e}/> </div> }
+                        )}
                       </h4>
                     </div>
                     {/* +++++++++++++++++++ END ACTIVITIES +++++++++++++++++++ */}
