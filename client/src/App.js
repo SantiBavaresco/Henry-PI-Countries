@@ -9,6 +9,8 @@ import NavBar from "./components/NavBar/NavBar"
 import ActivityCreator from "./components/ActivityCreator/ActivityCreator"
 import AdvancedActivityCreator from "./components/AdvancedActivityCreator/AdvancedActivityCreator"
 import Error404 from "./components/Error404/Error404"
+import About from "./components/About/About"
+
 
 
 
@@ -33,6 +35,8 @@ function App() {
              <Route path="/" element={<Home />}/> 
              <Route path="/countries" element={<Countries />}/>
              <Route path="/country/:id" element={<CountryDetail />}/>
+             <Route path="/about" element={<About />}/>
+
              <Route path="/activityCreator" element={<ActivityCreator />}/> 
              <Route path="/advancedActivityCreator" element={<AdvancedActivityCreator />}/>
              {/* <Route path="/mapita" element={<Mapita/>}/> */}

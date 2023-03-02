@@ -1,63 +1,28 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from "react-redux";
-import { getAllCountries, getActivities, createActivity} from "../../redux/actions";
+import { getAllCountries, getActivities, createActivity, clearError} from "../../redux/actions";
 
 import styles from "./ActivityCreator.module.css"
 import DualColumnScrollBarLabel from './DualColumnScrollBarLabel';
 import InputActivityCreator from "../InputActivityCreator/InputActivityCreator"
+import Error404 from "../Error404/Error404";
 
 
 function ActivityCreator(props) {
-  //   const [selectedOption, setSelectedOption] = useState('Option 1');
-  // const [selectedActivities, setSelectedActivities] = useState([]);
-  // const [selectedCountries, setSelectedCountries] = useState([]);
 
-  // // Example data for the selector, activities, and countries
-  // const selectorOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-  // const activityOptions = ['Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3','Activity 1', 'Activity 2', 'Activity 3'];
-  // const countryOptions = ['Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3',
-  // 'Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2',
-  //  'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1',
-  //   'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3',
-  //   'Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 
-  //   'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2', 'Country 3','Country 1', 'Country 2',
-  //    'Country 3','Country 1', 'Country 2', 'Country 3'];
-
-  // const handleOptionChange = (event) => {
-  //   setSelectedOption(event.target.value);
-  // };
-
-  // const handleActivityChange = (event) => {
-  //   const activity = event.target.value;
-  //   const isChecked = event.target.checked;
-  //   if (isChecked) {
-  //     setSelectedActivities([...selectedActivities, activity]);
-  //   } else {
-  //     setSelectedActivities(selectedActivities.filter((a) => a !== activity));
-  //   }
-  // };
-
-  // const handleCountryChange = (event) => {
-  //   const country = event.target.value;
-  //   const isChecked = event.target.checked;
-  //   if (isChecked) {
-  //     setSelectedCountries([...selectedCountries, country]);
-  //   } else {
-  //     setSelectedCountries(selectedCountries.filter((c) => c !== country));
-  //   }
-  // };
   const { allCountries, allActivities} = props;
-  // let empty = true;
   const dispatch = useDispatch();
-
 
   const [inputArray, setInputArray] = useState(""); // aca me viene la data del input (name,diff,dur,season)
   const [dualColumnArray, setDualColumnArray] = useState([]); // aca me viene la data del scroll (paises)
   const [random, setRandom] = useState([]);
   let ran = [];
   const [randomIsChecked, setRandomIsChecked] = useState(false);
-  const [formSuccess, setFormSuccess] = useState(false);
+  // const [formSuccess, setFormSuccess] = useState(false);
+
+  const error = useSelector(state => state.error);
+
 
   let emptyCountries = true;
   let emptyActivity = true;
@@ -66,9 +31,6 @@ function ActivityCreator(props) {
 
   useEffect(() => {
     dispatch (getAllCountries());
-
-
-    //console.log(dispatch (getCountryDetailByString("islan")))
   }, []);
 
   const updateArrayItem = (newValue) => {
@@ -80,10 +42,7 @@ function ActivityCreator(props) {
   };
   
   const handleRandomIsChecked = (event) => {
-    console.log("random es:",  event.target.checked)
     setRandomIsChecked(event.target.checked);
-    //  if(emptyCountries) setRandomIsChecked(false)
-    // console.log("random :",  randomIsChecked)
   };
 
 
@@ -97,7 +56,6 @@ function ActivityCreator(props) {
         }
   }
 
- 
 
   const ActivityResponseBuilder = (inputArray, dualColumnArray) => {
     return { 
@@ -112,16 +70,7 @@ function ActivityCreator(props) {
   function handleReturn() {
     window.history.back()
   }
-// console.log("++++++++++++++++++++++++++++++++++++++++++++");
-// consologuero(allCountries)
-// console.log("++++++++++++++++++++++++++++++++++++++++++++");
 
-  // function consologuero(aux){
-  //   console.log("ESTE ES UN CONSOLELOG: ", aux)
-  // }
-  // consologuero(inputArray[1]) // aca me viene la data del input (name,diff,dur,season)
-  // consologuero(dualColumnArray[1])
-  // console.log("ESTOS SON LOS PASISES", consologuero(dualColumnArray[1]))
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -133,17 +82,50 @@ function ActivityCreator(props) {
     else { emptyActivity = false; }
 
     if(random.length !== 0 && !emptyActivity) {
-      // console.log("////////////////RANDOM HABILITADO");
-      // console.log(ActivityResponseBuilder(inputArray[1], random))
       props.createActivity( ActivityResponseBuilder(inputArray[1], random) )
       handleReturn()
     }
     else if(!emptyActivity && !emptyCountries && random.length === 0){
-      // console.log(ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]))
       props.createActivity (ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]) )
       handleReturn()
     }
 
+  //   const hola = error && error 
+  //   console.log("ERROR STATUS: ", hola)
+
+  //   if (hola.indexOf("Unexpected token 'A'") !== -1)
+  //   {
+  //     console.log("ENTRE AL SUCCED");
+  //     alert("Activity created succesfully !");
+  //   }
+  //   else if ((error != "Unexpected token 'D'")) {
+  //     console.log("ENTRE AL ERROR");
+  //     let msg = "Duplicated Key"
+      
+  //     return (
+  //       <div> 
+  //         <Error404 error={msg}/>
+  //       </div>
+  //     )
+  //   }else{
+  //     console.log("ENTRE AL SUCCED");
+  //     alert("Activity created succesfully !");
+  //  }
+    
+    // if(error?.message === null) {alert("Activity created succesfully !");}
+
+    // else if (error == "Unexpected token 'A'") {
+    //   let msg = "Duplicated Key"
+    //   // if(error) msg = error;
+      
+    //   return (
+    //     <div> 
+    //       <Error404 error={msg}/>
+    //     </div>
+    //   )
+    // }
+    
+    // dispatch (clearError(null))()
   };
 
 
@@ -210,7 +192,9 @@ export function mapDispatchToProps(dispatch) {
   return {
     getAllCountries: () => dispatch ( getAllCountries() ),
     getActivities: () => dispatch ( getActivities() ),
-    createActivity: (activity) => dispatch( createActivity(activity) )
+    createActivity: (activity) => dispatch( createActivity(activity) ),
+    clearError: () => dispatch ( clearError() ),
+
 
   };
 }

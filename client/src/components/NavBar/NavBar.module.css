@@ -24,6 +24,7 @@
 
  
   body {
+    
     background: #67d5e4;
 
     font-family: "Euclid Circular A";
@@ -55,6 +56,7 @@
     top: 0;
     left: 0;
     width: 72px;
+    height: 62px;
   }
   
   .navbar {
@@ -113,7 +115,7 @@
   .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 18px;
     width: 138px;
     padding-right: 10px;
     margin-bottom: 10px;

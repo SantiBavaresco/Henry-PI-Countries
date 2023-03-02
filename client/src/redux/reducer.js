@@ -10,7 +10,10 @@ import {
   ORDER_CARDS,
   API_ERROR,
   CLEAR_STATE,
+  CLEAR_ERROR,
   SAVE_PERPAGE,
+  SET_FILTER_BY_CONTINENT,
+  SET_FILTER_BY_ACTIVITY,
 } from "./type";
 
 const initialState = {
@@ -20,7 +23,8 @@ const initialState = {
   allActivities: [],
   countryById: {},
   countryByString: [],
-  filteredCountries:[],
+  filteredCountriesByContinent:[],
+  filteredCountriesByActivity:[],
   filterByContinent:"All",
   filterByActivity: "All",
   orderState:"az",
@@ -81,76 +85,69 @@ function sortPopAsc(aux){
           return{ ...state, countryByString: sortAsc(action.payload), countriesFound: sortAsc(action.payload) }
 //-------------------------------------------------------------------------  
         case GET_ACTIVITIES:
-          return{ ...state, allActivities: action.payload }
+          return{ ...state, allActivities: action.payload}
 //-------------------------------------------------------------------------         
         case CREATE_ACTIVITY:
           const created = [...state.allActivities, action.payload];
-          return { ...state, allActivities: [...created] };
+          return { ...state, allActivities: [...created]  };
 //-------------------------------------------------------------------------         
 //-------------------CHECK THIS IF IT WORKS----------------------------------         
         case CREATE_ADVANCED_ACTIVITY:
           const created1 = [...state.allActivities, action.payload];
           return { ...state, allActivities: [...created1] };
 //-------------------------------------------------------------------------    
-      case FILTER_CARDS: 
-        const filteredCountries = [...state.allCountries];
-        state.countriesFound = [...state.allCountries]
-        // console.log("soy el payload de filter",(action.payload));
+        case FILTER_CARDS:{ 
+          
+          const auxAllCountries = [...state.allCountries];
+          state.countriesFound = [...state.allCountries]
 
-        if(action.payload !== "All"){
-          // console.log("Estoy deltro del if !==All ");
-          const filtradoContinent = state.countriesFound.filter(
-          fav => {
-            if(
-              (fav.continent === action.payload ) && 
-              ( ( fav.Activities?.includes( state.filterByActivity ))  || (state.filterByActivity === "All")) 
-            )return fav;
-          })
-          // const filtradoActivity = state.countriesFound.filter(
-          //   fav => fav.continent === action.payload );
-          console.log("SOY LOS COUNTRI FILTRADOS",(filtradoContinent));
-          return{
-            ...state,
-            countriesFound: filtradoContinent, filterByContinent:action.payload,
-            // countriesFound: filtradoActivity,  filterByActivity: action.payload, 
+          if( (state.filterByActivity === "All") && (state.filterByContinent === "All") ){
+            return{
+            ...state,  
+            countriesFound: auxAllCountries, 
+            filterByContinent: action.payload}
           }
-        }
-        else{
-          console.log("ESTOY EN EL ELSE");
-          return{ ...state, countriesFound: filteredCountries }
-          // return{...state, myFavorites: state.allCharacters}
-        }
-//-------------------------------------------------------------------------         
-        case FILTER_CARDS_BY_ACTIVITY: 
-        const filteredCountries1 = [...state.allCountries];
-        state.countriesFound = [...state.allCountries]
-        // console.log("soy el payload de filter",(action.payload));
-        // console.log("TODOS LOS COUNTRIES FILTER BY ACTI: ", filteredCountries1)
-        if(action.payload !== "All"){
-          // console.log("Estoy deltro del if !==All ");
-          // const filtradoContinent = state.countriesFound.filter(
-          // fav => fav.continent === action.payload );
-          let aux2 = {}
-          const filtradoActivity1 = state.countriesFound.filter(
-            fav => { 
-              if(( fav.Activities?.includes( action.payload ) ) && (fav.continent === state.filterByContinent ) ) return fav
-            } 
-          );
 
-          console.log("SOY LOS COUNTRI FILTRADOS by acti",(filtradoActivity1));
-
-          return{
-            ...state,
-            // countriesFound: filtradoContinent, filterByContinent:action.payload,
-            countriesFound: filtradoActivity1,  filterByActivity: action.payload, 
+          else if( (state.filterByActivity === "All") && (state.filterByContinent !== "All")){
+            const filterCountry = auxAllCountries.filter(
+                fav => { if( (fav.continent === state.filterByContinent )) return fav } 
+              );
+            return{
+              ...state,  
+              countriesFound: filterCountry, 
+              filterByContinent: action.payload
+            }
           }
+          
+          else if ( (state.filterByActivity !== "All")  && (state.filterByContinent === "All") ) {
+            const filterCountry = state.countriesFound.filter(
+                fav => {
+                  if(( ( fav.Activities?.includes( state.filterByActivity )) ) 
+                  )return fav;
+                })
+            return{
+              ...state,  
+              countriesFound: filterCountry, 
+              filterByContinent: action.payload
+            }  
+          }
+
+          else if ( (state.filterByActivity !== "All")  && (state.filterByContinent !== "All") ){
+            const filterCountry = state.countriesFound.filter(
+              fav => {
+                if(( ( fav.Activities?.includes( state.filterByActivity )) && (fav.continent === state.filterByContinent ) ) 
+                )return fav;
+              })
+            return{
+              ...state,  
+              countriesFound: filterCountry, 
+              filterByContinent: action.payload
+            }  
+          }
+
         }
-        else{
-          console.log("ESTOY EN EL ELSE by acti");
-          return{ ...state, countriesFound: filteredCountries1 }
-          // return{...state, myFavorites: state.allCharacters}
-        }
-//-------------------------------------------------------------------------         
+
+//-------------------------------------------------------------------------              
       case ORDER_CARDS:
         // let filtradoOrder = [];
         switch(action.payload) {
@@ -215,6 +212,19 @@ function sortPopAsc(aux){
         const auxiliar = action.payload // countryById       -------------------> preguntar a rosi si se puede hacer
         return { ...state, countryById: [] };
 //-------------------------------------------------------------------------   
+      case CLEAR_ERROR:
+        return { ...state, error : action.payload}
+
+      case SET_FILTER_BY_CONTINENT:{
+        return{
+          ...state, filterByContinent: action.payload
+        }
+      }
+      case SET_FILTER_BY_ACTIVITY:{
+        return{
+          ...state, filterByActivity: action.payload
+        }
+      }
       default:
         return state;
     }

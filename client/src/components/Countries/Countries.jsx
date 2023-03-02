@@ -11,8 +11,8 @@ import Loading from "../Loading/Loading";
 import Error404 from "../Error404/Error404";
 
 import { getAllCountries, apiError, getCountryDetailByID, getCountryDetailByString, getActivities,
-   orderCards, filterCards,filterCardsByActivity, saveCurrentePage, }
-   from "../../redux/actions";
+  orderCards, filterCards, saveCurrentePage, setFilterByActivity, setFilterByContinent }
+  from "../../redux/actions";
 
 
 function Countries(props) {
@@ -23,7 +23,7 @@ function Countries(props) {
   const [loading, setLoading] = useState(true)
   const [Order, setOrder] = useState(orderState)
   const [activity, setActivity] = useState(filterByActivity)
-
+  const [countryFilter, setCountryFilter] = useState(filterByContinent)
 
   const [currentPage, setCurrentPage] = useState(pagerCurrentPage);
   const [countriesPerPage, setcountriesPerPage] = useState(18); // < --- Para el PI hay que setearlo en 10
@@ -31,115 +31,76 @@ function Countries(props) {
   const indexFirstCountry = indexLastCountry - countriesPerPage;
   const countriesToShow = countriesFound.slice(indexFirstCountry, indexLastCountry);
 
-
   const error = useSelector(state => state.error);
 
-  //console.log("TODA LAS ACTIVIDADES", (allActivities[3].id))
 
   useEffect(() => {
     if(countriesFound.length===0 || allCountries.length===0) dispatch (getAllCountries());
     if(countryByString.length===0) dispatch (getCountryDetailByString(""))
     if(allActivities.length===0) dispatch (getActivities())
+    dispatch (saveCurrentePage(pagerCurrentPage))
+    
+  }, []);
 
-    console.log("SOY EL USEFFECT : " , filterByContinent);
-    console.log("los paises: ", countriesToShow);
-    console.log("keys de error: ",error)
-    dispatch (filterCardsByActivity(filterByActivity))
+useEffect( ()=>{
+  // dispatch (filterCardsByActivity(filterByActivity))
+  dispatch (filterCards(filterByContinent))
+}, [filterByActivity])
 
+useEffect ( ()=>{
     dispatch (filterCards(filterByContinent))
+    // dispatch (filterCardsByActivity(filterByActivity))
+  }, [ filterByContinent])
 
+useEffect(() => {
+  if(allCountries?.length !== 0){ setLoading(false) }
+}, [allCountries]);
 
+if (error) {
+  let msg = ""
+  if(error) msg = error;
 
-  }, [error]);
-  useEffect(() => {
-    // dispatch ( getCountryDetailByID(id) );
-    // let wait = countryById?.capital && countryById
-    if(allCountries?.length !== 0){ setLoading(false)
-    }
-    // dispatch(apiError(null));        CHEQUEAR ESTA PARTE; LOADING ---> ERROR, pero no resetea el error del estado
-  }, [allCountries]);
-
-  if (error) {
-    console.log("keys de error: ",error)
-    let msg = ""
-    if(error) msg = error
-
-    return (
+  return (
     <div> 
       <Error404 error={msg}/>
       {/* <Link to={"/countries"}>
         <button> Volver </button>
       </Link> */}
       {/* <Outlet/> */}
-    </div>)
-  }
+    </div>
+  )
+}
 
 
+const paginated = (pageNumber) => {
+  setCurrentPage(pageNumber);
+  dispatch (saveCurrentePage(pageNumber))
+};
 
-  // const filter =  useDispatch();
+const handleChangePerPage = async (event) => {
+  setcountriesPerPage(event.target.value);
+  dispatch (saveCurrentePage(event.target.value))
+};
 
-  // function handleChangeOrder(evento){
-  //     // cuando ocurra un cambio en el valuue del input,
-  //     // tomar ese value y guardarlo en el estado del userInput
-  //     const value = evento.target.value;
-  //     console.log("++++++ value");
-  //     console.log((":", value));
-
-  //     setOrder(value, () => {
-  //       console.log('Selected value updated:', Order)})
-
-  //     console.log("++++++ Order");
-  //     console.log(("", Order));
-      
-  //     dispatch(orderCards(value) )
-  //    // setUserInput(evento.target.value);
-  //  }
-  
-
-
-  const paginated = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    dispatch (saveCurrentePage(pageNumber))
-  };
-
-  const handleChangePerPage = async (event) => {
-    setcountriesPerPage(event.target.value);
-
-    // await dispatch(orderCards(Order) )
-  };
-
-  const handleChangeOrder =(event) => {
-    setOrder(event.target.value);
-    console.log("--------------");
-
-    console.log(event.target.value);
-    console.log(Order);
-
-    dispatch(orderCards(event.target.value) )
-  };
+const handleChangeOrder =(event) => {
+  setOrder(event.target.value);
+  dispatch(orderCards(event.target.value) )
+};
 
   // dispatch(orderCards(Order) )
 
-  async function  handleChangeFilter(evento){
-      // cuando ocurra un cambio en el valuue del input,
-      // tomar ese value y guardarlo en el estado del userInput
-      console.log("---------------:", evento.target.value);
-      console.log("ESTE ES EL FILTRO DEL ESTADO :",filterByContinent)
-
-      await dispatch(filterCards(evento.target.value))
-     // setUserInput(evento.target.value);
-  } 
-  async function  handleChangeFilterActivity(event){
-    // cuando ocurra un cambio en el valuue del input,
-    // tomar ese value y guardarlo en el estado del userInput
-    const value = event.target.value;
-    setActivity(value)
-    console.log("---------------++++:", value);
-    console.log("ESTE ES EL FILTRO DEL ESTADO Activity:",filterByContinent)
-    
-    await dispatch(filterCardsByActivity(event.target.value))
-   // setUserInput(evento.target.value);
+async function handleChangeFilterContienet(event){
+  const value = event.target.value;
+  setCountryFilter(value)
+  await dispatch(setFilterByContinent(value))
 } 
+
+async function handleChangeFilterActivity(event){
+  const value = event.target.value;
+  setActivity(value)
+  await dispatch(setFilterByActivity(value))
+} 
+
   // "Antarctic", "Africa", "Asia", 
   // "Europe", "North America", "Oceania", 
   // "South America", "Americas",
@@ -164,8 +125,8 @@ function Countries(props) {
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Continent</h1>
         <select id="continent" style={{width:"150px"}} 
-                  value={filterByContinent}
-                  onChange={handleChangeFilter}
+                  value={countryFilter}
+                  onChange={handleChangeFilterContienet}
                   >
           <option value="All">All</option>
           <option value="Africa">Africa</option>
@@ -174,7 +135,6 @@ function Countries(props) {
           <option value="Asia">Asia</option>
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
-          {/* <option value="Unknown">Unknown</option> */}
         </select>
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>Activity</h1>
@@ -186,14 +146,6 @@ function Countries(props) {
           {allActivities?.map( (element) => {
             return (<option value={element?.name}>{element?.name}</option>)
           })}
-          {/* <option value="All">All</option>
-          <option value="Africa">Africa</option>
-          <option value="Americas">Americas</option>
-          <option value="Antarctic">Antarctic</option>
-          <option value="Asia">Asia</option>
-          <option value="Europe">Europe</option>
-          <option value="Oceania">Oceania</option> */}
-          {/* <option value="Unknown">Unknown</option> */}
         </select>
 
         <h1 style={{ marginLeft: "10px", fontSize: "16px"}}>C/Page</h1>
@@ -218,10 +170,6 @@ function Countries(props) {
           />
 
       <div className={styles.cards_container}>
-        {/* {console.log("len string:", countryByString.length)}
-        {console.log("len all:", allCountries.length)}
-        {console.log("foun all:", countriesFound.length)} */}
-
 
         {
 
@@ -285,7 +233,8 @@ export function mapDispatchToProps(dispatch) {
     getActivities: () => dispatch ( getActivities() ),
     getCountryDetailByString: () => dispatch ( getCountryDetailByString() ),
     saveCurrentePage: () => dispatch ( saveCurrentePage() ),
-
+    setFilterByActivity: ()=> dispatch (setFilterByActivity()),
+    setFilterByContinent: ()=> dispatch (setFilterByContinent()),
   };
 }
 

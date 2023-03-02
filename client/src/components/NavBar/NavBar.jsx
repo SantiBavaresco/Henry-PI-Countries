@@ -124,9 +124,10 @@ function Navbar() {
         <div className={styles.logo}>
           <Link to={"/"} >
             <img src={logo} alt="Logo" />
+            
           </Link>
           <Link to={"/countries"} >
-            <span>PI Countries</span>
+            <span>Countries</span>
           </Link>
           
         </div>
@@ -155,12 +156,12 @@ function Navbar() {
           </div>
           <Link to={"/countries"} className={styles.logoRoutes}>
            {/* <a href="/countries"> */}
-            <img src={iWorld} alt="Home" className={styles.logoRoutes}/>
+            <img src={iWorld} alt="Home" className={styles.logoRoutes} style={{padding:"0px"}}/>
           {/* </a> */}
           </Link>
 
 
-          <Link to={"/profile"} className={styles.logoRoutes}> 
+          <Link to={"/About"} className={styles.logoRoutes}> 
           {/* <a href="/profile" className={styles.logoRoutes}> */}
             {/* Profile&#x1F51C;  */}
             <img src={iProfile} alt="Profile" />

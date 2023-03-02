@@ -26,6 +26,10 @@ export default function DualColumnScrollBarLabel(props) {
     
     const handleCountryChange = (event) => {
     const value = event.target.value;
+
+    console.log("CHEKEC", event.target.checked);
+    console.log("Value", value);
+    
         if (event.target.checked) {
           setSelectedCountries([...selectedCountries, value]);
           

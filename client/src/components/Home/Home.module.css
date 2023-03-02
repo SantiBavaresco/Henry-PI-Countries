@@ -1,0 +1,66 @@
+.home{
+    min-height: 85vh;
+    
+    min-width: 100%;
+    /* min-height: 100vh; */
+    background: url("../../misc/fondo.jpg");
+  
+    /* background-size: 100vh; */
+    background-size:cover;
+    background-position:inherit; 
+    background-attachment:fixed;
+  
+  }
+
+.text{
+    font-size: 58px;
+    font-weight: bold;
+    /* text-transform: uppercase; */
+    text-align: center;
+    background-color: yellow;
+    /* background-image: url('../../img/rockTexture.jpg');
+    background-repeat: repeat; */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-stroke: 4px black;
+    -webkit-text-stroke: 4px black;
+    font-family: "Copperplate", monospace;
+    
+  }
+
+  .text1{
+    font-size: 88px;
+    font-weight: bold;
+    /* text-transform: uppercase; */
+    text-align: center;
+    background-color: yellow;
+    /* background-image: url('../../img/rockTexture.jpg');
+    background-repeat: repeat; */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-stroke: 4px black;
+    -webkit-text-stroke: 4px black;
+    font-family: "Copperplate", monospace;
+    
+  }
+.image1{
+  max-Width: 30vw;
+}
+
+  .textP{
+    padding-left: 10vw;
+    padding-right: 10vw;
+    font-size: 42px;
+    font-weight: bold;
+    /* text-transform: uppercase; */
+    text-align: center;
+    background-color: black;
+    /* background-image: url('../../img/rockTexture.jpg');
+    background-repeat: repeat; */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-stroke: 1px rgb(3, 164, 164);;
+    -webkit-text-stroke: 1px rgb(3, 164, 164);
+    font-family: "Copperplate", monospace;
+    
+  }

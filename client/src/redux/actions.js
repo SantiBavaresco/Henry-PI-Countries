@@ -11,6 +11,8 @@ import {
   CLEAR_STATE,
   API_ERROR,
   FILTER_CARDS_BY_ACTIVITY,
+  SET_FILTER_BY_CONTINENT,
+  SET_FILTER_BY_ACTIVITY,
 } from "./type";
 //const axios = require('axios');
 
@@ -104,9 +106,10 @@ export function createActivity(activity) {
           dispatch({ 
             type: CREATE_ACTIVITY, 
             payload: activity });
-          dispatch(apiError(null));
+          dispatch(apiError(result));
         })
         .catch(error => {
+            console.log("***********",Object.keys(error));
             dispatch(apiError(error.message))
         })
         
@@ -143,12 +146,12 @@ export function filterCards (status){
         payload: status
     }
 };
-export function filterCardsByActivity (status){ 
-    return {
-        type: FILTER_CARDS_BY_ACTIVITY,
-        payload: status
-    }
-};
+// export function filterCardsByActivity (status){ 
+//     return {
+//         type: FILTER_CARDS_BY_ACTIVITY,
+//         payload: status
+//     }
+// };
 
 export function orderCards (status){ 
     return {
@@ -167,6 +170,27 @@ export function saveCurrentePage (id){
 export function clearState (id){ 
     return {
         type: CLEAR_STATE,
+        payload: id
+    }
+};
+
+export function clearError (status){ 
+    return {
+        type: CLEAR_STATE,
+        payload: status
+    }
+};
+
+export function setFilterByContinent (id){ 
+    return {
+        type: SET_FILTER_BY_CONTINENT,
+        payload: id
+    }
+};
+
+export function setFilterByActivity (id){ 
+    return {
+        type: SET_FILTER_BY_ACTIVITY,
         payload: id
     }
 };

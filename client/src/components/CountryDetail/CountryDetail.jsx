@@ -130,7 +130,7 @@ console.log("🎪 🗿 🏌 🤾 🐠 🐟 ⛺ 🏂 ⛷  🌲 🏇 ️⛳️ �
             <div className={styles.country_map}>
               {/* --------------------------------------- MAP --------------------------------------- */}
               <Linker href={countryById.maps}>
-                <img 
+                <img className={styles.imageMap} 
                   src={`https://maps.googleapis.com/maps/api/staticmap?center=${validateName(countryById.name)}
                   &zoom=${zoomValue(countryById.area, countryById.ID)}
                   &size=640x640&maptype=roadmap

@@ -2,107 +2,89 @@ import React from 'react';
 import { useState , useEffect } from 'react';
 import styles from "./AdvancedActivityCreator.module.css"
 import { connect, useDispatch, useSelector } from "react-redux";
-import { getAllCountries, getActivities, createActivity} from "../../redux/actions";
+import { getAllCountries, getActivities, clearError, createAdvancedActivity} from "../../redux/actions";
 import DualColumnScrollBarLabel from './DualColumnScrollBarLabel';
-
+import ActivityScrollBarLabel  from './ActivityScrollBarLabel';
+import Error404 from "../Error404/Error404";
 
 function AdvancedActivityCreator(props) {
   const dispatch = useDispatch();
   const { allCountries, allActivities} = props;
-  // let empty = true;
-
-
-
-    const [selectedOption, setSelectedOption] = useState('Option 1');
-  const [selectedActivities, setSelectedActivities] = useState([]);
-  const [selectedCountries, setSelectedCountries] = useState([]);
-
-  // Example data for the selector, activities, and countries
 
   const activityOptions = allActivities.map( (element)=> {return element.name})
 
 
-     const [inputArray, setInputArray] = useState([]); // aca me viene la data del input (name,diff,dur,season)
-     const [dualColumnArray, setDualColumnArray] = useState([]); // aca me viene la data del scroll (paises)
+  const [ActivitiesArray, setActivitiesArray] = useState([]); // aca me viene la data del input (name,diff,dur,season)
+  const [dualColumnArray, setDualColumnArray] = useState([]); // aca me viene la data del scroll (paises)
 
-     const [formSuccess, setFormSuccess] = useState(false);
-   
-     let emptyCountries = true;
-     let emptyActivity = true;
+  const [formSuccess, setFormSuccess] = useState(false);
+  const error = useSelector(state => state.error);
 
+  let emptyCountries = true;
+  let emptyActivity = true;
 
-     useEffect(() => {
-      dispatch (getAllCountries());
-      dispatch (getActivities());
+  const parseActivityArray = (array) => {
+    return allActivities?.filter( obj => array?.[1]?.[0].includes(obj.name) ).map(obj => obj.id) 
+  }
+  const idActivitiesArray =  parseActivityArray(ActivitiesArray)
 
-      console.log("ACTIVIDDES: ", allActivities?.map( (element)=> {return element.id}))
-      console.log("Selected countries: ", dualColumnArray?.[1]?.[0]);  //-------------------- tira error con undefined
-      // console.log("Selected countries 2: ", selectedCountries);
-
-      console.log("actividades cheked useefect: ", selectedActivities);
-
-
-
+  useEffect(() => {
+    dispatch (getAllCountries());
+    dispatch (getActivities());
+  }, [ActivitiesArray, dualColumnArray]);
   
-  
-      //console.log(dispatch (getCountryDetailByString("islan")))
-    }, [selectedActivities, dualColumnArray]);
-  
-    // const updateArrayItem = (newValue) => {
-    //   setInputArray([inputArray, newValue ]);
-    //   console.log("Selected activities: ", inputArray);
-    // };
-    
-    const updateArrayCountries = (newValue) => {
-      setDualColumnArray([dualColumnArray, newValue ]);
-      // console.log("Selected countries: ", dualColumnArray[1]);
+  const updateArrayCountries = (newValue) => {
+    setDualColumnArray([dualColumnArray, newValue ]);
+  };
 
+  const updateArrayActivities = (newValue) => {
+      setActivitiesArray([ActivitiesArray, newValue ]);
     };
     
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleActivityChange = (event) => {
-    const activity = event.target.value;
-    const isChecked = event.target.checked;
-    if (isChecked) {
-      setSelectedActivities([...selectedActivities, activity]);
-    } else {
-      setSelectedActivities(selectedActivities.filter((a) => a !== activity));
-    }
-    console.log("actividades cheked: ", selectedActivities);
-
-  };
-
-  // const handleCountryChange = (event) => {
-  //   const country = event.target.value;
-  //   const isChecked = event.target.checked;
-  //   if (isChecked) {
-  //     setSelectedCountries([...selectedCountries, country]);
-  //   } else {
-  //     setSelectedCountries(selectedCountries.filter((c) => c !== country));
-  //   }
+  // const handleOptionChange = (event) => {
+  //   setSelectedOption(event.target.value);
   // };
 
-const handleSubmit = (event) => {
+
+const handleSubmit = async(event) => {
     event.preventDefault();
 
     if(dualColumnArray[1][0].length === 0) { emptyCountries=true; }
     else { emptyCountries=false }
 
-    if(inputArray[1]===undefined) { emptyActivity = true; }
+    if(ActivitiesArray.length === 0) { emptyActivity = true; }
     else { emptyActivity = false; }
 
     if(!emptyActivity && !emptyCountries ){
-      // console.log(ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]))
+        await props.createAdvancedActivity (ActivityResponseBuilder(idActivitiesArray, dualColumnArray[1][0]) )
+        handleReturn()
 
-      // props.createActivity (ActivityResponseBuilder(inputArray[1], dualColumnArray[1][0]) )
-      handleReturn()
     }
 
+    if(error?.message === null) {alert("Activity created succesfully !");}
+
+    else if (error == "Unexpected token 'A'") {
+      let msg = "Duplicated Key"
+      // if(error) msg = error;
+      
+      return (
+        <div> 
+          <Error404 error={msg}/>
+        </div>
+      )
+    }
+
+    dispatch (clearError(null))()
+
   };
+
+  const ActivityResponseBuilder = (ActivitiesArray, dualColumnArray) => {
+    return { 
+              arrayActivities: ActivitiesArray,
+              arrayCountries: dualColumnArray,
+            }
+  }
 
   function handleReturn() {
     window.history.back()
@@ -113,38 +95,20 @@ const handleSubmit = (event) => {
     <table className={styles.tableAdvanced}>
       <thead>
         <tr>
-          {/* <th>Select an option</th> */}
           <th>Select activities</th>
           <th>Select countries</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          {/* <td>
-            <select value={selectedOption} onChange={handleOptionChange}>
-              {selectorOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </td> */}
+
           <td>
-            {activityOptions.map((activity, index) => (
-              <div key={index}  >
-                <label style={{width: "20vw"}}>
-                  <input
-                    type="checkbox"
-                    value={activity}
-                    checked={selectedActivities.includes(activity)}
-                    onChange={handleActivityChange}
-                    // onClick = {updateArrayItem}
-                  />
-                  {activity}
-                </label>
-              </div>
-            ))}
-            
+            <ActivityScrollBarLabel 
+              array={ActivitiesArray} 
+              updateArrayActivities={updateArrayActivities}  
+              AllActivities={allActivities} 
+              // disabled={randomIsChecked}
+            />
 
           </td>
           <td>
@@ -155,32 +119,24 @@ const handleSubmit = (event) => {
             // disabled={randomIsChecked}
           />
           </td>
-          {/* <td>
-            {countryOptions.map((country, index) => (
-              <div key={index}>
-                <label>
-                  <input
-                    type="checkbox"
-                    value={country}
-                    checked={selectedCountries.includes(country)}
-                    onChange={handleCountryChange}
-                  />
-                  {country}
-                </label>
-              </div>
-            ))}
-          </td> */}
         </tr>
       </tbody>
     </table>
-    <div style={{display:"flex", justifyContent: "space-evenly"}}>
-      <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", padding: "10px" }}>
+      <div style={{display:"flex", justifyContent: "space-evenly", paddingRight: "10px"}}>
+        <button type="submit" onClick={handleSubmit} disabled={false} style={{width:"150px", height:"40px"}}>
+          Create Activity</button>
+      </div>
+      <div style={{display:"flex", justifyContent: "space-evenly"}}>
+        <button onClick={handleReturn} style={{height:"40px"}}>Back</button>
+      </div>
+
     </div>
   </div>
 
 )}
 
-// export default AdvancedActivityCreator;
+
 
 export function mapStateToProps(state) {
   return {
@@ -193,7 +149,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     getAllCountries: () => dispatch ( getAllCountries() ),
     getActivities: () => dispatch ( getActivities() ),
-    createActivity: (activity) => dispatch( createActivity(activity) ) // cambiar por advanced
+    createAdvancedActivity: (activity) => dispatch( createAdvancedActivity(activity) ) // cambiar por advanced
 
   };
 }
