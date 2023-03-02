@@ -26,7 +26,7 @@ router.post("/CreateActivity", async (req, res)=>{
         res.status(201).send("Activity added successfully");
     }
     catch(error){
-        res.status(404).send(error.message);
+        res.status(404).send("Duplicated Key");
     }
 });
 
