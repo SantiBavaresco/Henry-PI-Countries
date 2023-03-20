@@ -56,6 +56,14 @@ useEffect(() => {
   if(allCountries?.length !== 0){ setLoading(false) }
 }, [allCountries]);
 
+  const pageNumber = [];
+
+  for (let i = 1; i <= Math.ceil(countriesFound.length / countriesPerPage); i++) {
+    pageNumber.push(i);
+  }
+
+  if(currentPage > pageNumber.length) setCurrentPage(1);
+
 if (error) {
   let msg = ""
   if(error) msg = error;
@@ -167,6 +175,7 @@ async function handleChangeFilterActivity(event){
             countriesPerPage={countriesPerPage}
             countries={countriesFound.length}
             paginated={paginated}
+            currentPage={currentPage}
           />
 
       <div className={styles.cards_container}>

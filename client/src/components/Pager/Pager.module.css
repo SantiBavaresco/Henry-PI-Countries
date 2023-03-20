@@ -15,8 +15,8 @@
 
     
 }
-.num_page:hover, .num_page:focus{
-    /* all: revert; */
+.num_page_current{
+    all: revert;
     font-size: 23px;
     display: inline;
     border-radius: 10px;

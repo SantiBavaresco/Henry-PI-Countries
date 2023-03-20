@@ -50,17 +50,17 @@
   .textP{
     padding-left: 10vw;
     padding-right: 10vw;
-    font-size: 42px;
+    font-size: 30px;
     font-weight: bold;
     /* text-transform: uppercase; */
     text-align: center;
-    background-color: black;
+    background-color: rgb(8, 24, 255);
     /* background-image: url('../../img/rockTexture.jpg');
     background-repeat: repeat; */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-stroke: 1px rgb(3, 164, 164);;
-    -webkit-text-stroke: 1px rgb(3, 164, 164);
+    text-stroke: 1px black;;
+    -webkit-text-stroke: 1px white;
     font-family: "Copperplate", monospace;
     
   }
