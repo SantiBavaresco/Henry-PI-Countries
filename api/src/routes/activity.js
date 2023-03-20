@@ -72,14 +72,14 @@ router.get("/", async (req , res)=>{
 })
 
 
-router.get("/:idPais", async (req , res)=>{ 
+router.get("/:idCountry", async (req , res)=>{ 
 /*  Route that returns the activities that have the country requested by parameter.
     Returns: response of succed with a json of the country found or msg of failure.
 */ 
     // http://localhost:3001/api/activities/arg
-    const { idCountry } = req.params; 
+    let { idCountry } = req.params; 
     try {
-        const countryFound = await Country.findByPk(idCountry.toUpperCase());
+        const countryFound = await Country.findByPk(idCountry?.toUpperCase());
 
         if(!countryFound) throw Error(`The code ${idCountry} does not correspond to an existing country`);
 
