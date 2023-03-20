@@ -26,7 +26,7 @@ export function apiError(error){
 // ACTION CREATORS
 export function getAllCountries (){ 
     return async (dispatch) => {
-        await fetch("http://localhost:3001/api/countries")
+        await fetch("http://localhost:3001/api/countries/")
         .then((r)=> r.json())
         .then((data) => {
             dispatch({

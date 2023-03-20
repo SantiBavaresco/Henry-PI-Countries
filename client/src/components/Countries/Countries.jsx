@@ -56,7 +56,7 @@ useEffect(() => {
   if(allCountries?.length !== 0){ setLoading(false) }
 }, [allCountries]);
 
-  const pageNumber = [];
+  const pageNumber = [1];
 
   for (let i = 1; i <= Math.ceil(countriesFound.length / countriesPerPage); i++) {
     pageNumber.push(i);
