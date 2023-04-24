@@ -16,7 +16,7 @@ import {
 } from `./type`;
 //const axios = require('axios');
 
-const deploy = 'https://pi-food-kgyc.onrender.com/'
+const deploy = 'https://pi-countries-santi.onrender.com'
 const local = (pivot ? deploy : local) + ``
 const pivot = true
 

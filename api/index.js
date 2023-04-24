@@ -20,7 +20,7 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const { createStandarActivities } = require("./src/controllers/createActivity")
-const { countriesFromApi } = require("./src/controllers/createCountry")
+const { countriesFromApi } = require("./src/controllers/CreateCountry")
 const DB_PORT = process.env.DB_PORT || 3001
 
 
