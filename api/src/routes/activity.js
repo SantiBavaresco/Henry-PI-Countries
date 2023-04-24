@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { Activity, Country } = require('../db')
-const { createActivity, createCountryActivity, createStandarActivities } = require("../controllers/createActivity")
+const { createActivity, createCountryActivity, createStandarActivities } = require("../controllers/CreateActivity")
 const { randomCountriesArray } = require("../controllers/GenerateRandomArray")
 const { addExistingActivitiesToCountries } = require("../controllers/AddExistingActivitiesToCountries")
 
