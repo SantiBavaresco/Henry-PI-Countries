@@ -13,11 +13,11 @@ import {
   FILTER_CARDS_BY_ACTIVITY,
   SET_FILTER_BY_CONTINENT,
   SET_FILTER_BY_ACTIVITY,
-} from `./type`;
+} from "./type";
 //const axios = require('axios');
 
 const deploy = 'https://pi-countries-santi.onrender.com'
-const local = (pivot ? deploy : local) + ``
+const local = (pivot ? deploy : local) + ""
 const pivot = true
 
 export function apiError(error){
